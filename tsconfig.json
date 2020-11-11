@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "outDir": "./esm",
+    "rootDir": "./src",
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "name": "insight",
+  "version": "1.0.0",
+  "description": "An implementation of Micro Frontends what knows you more",
+  "keywords": [
+    "micro frontend",
+    "microfrontend",
+    "micro frontends",
+    "micro-frontend",
+    "micro-frontends"
+  ],
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "es",
+    "lib"
+  ],
+  "scripts": {
+    "demo:install": "npm-run-all --serial build install:*",
+    "demo:start": "npm-run-all --parallel start:*",
+    "install:main": "cd demo/main && npm i",
+    "start:main": "cd demo/main && npm run start",
+    "install:vue": "cd demo/vue && npm i",
+    "start:vue": "cd demo/vue && npm start",
+    "install:purehtml": "cd demo/purehtml && npm i",
+    "start:purehtml": "cd demo/purehtml && npm start",
+    "install:vue3": "cd demo/vue3 && npm i",
+    "start:vue3": "cd demo/vue3 && npm start",
+    "build": "father-build",
+    "lint": "eslint ./src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.vmic.xyz:game-common/insight.git"
+  },
+  "author": "morrain",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/lodash": "^4.14.165",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "babel-plugin-import": "^1.12.1",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-html": "^6.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.2",
+    "eslint-plugin-vue": "^7.1.0",
+    "father-build": "^1.18.5",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.5",
+    "clone-deep": "^4.0.1",
+    "lodash": "^4.17.20",
+    "single-spa": "^5.8.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue,html}": "eslint"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
