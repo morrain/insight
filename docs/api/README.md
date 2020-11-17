@@ -85,7 +85,7 @@
 - 示例
 
   ```js
-  import { registerMicroApps } from 'insight'
+  import { registerMicroApps } from '@game/insight'
 
   registerMicroApps(
     [
@@ -162,7 +162,7 @@
 - 示例
 
   ```ts
-  import { start } from 'insight'
+  import { start } from '@game/insight'
 
   start()
   ```
@@ -180,7 +180,7 @@
 - 示例
 
   ```ts
-  import { setDefaultMountApp } from 'insight'
+  import { setDefaultMountApp } from '@game/insight'
 
   setDefaultMountApp('/homeApp')
   ```
@@ -198,7 +198,7 @@
 - 示例
 
   ```ts
-  import { runAfterFirstMounted } from 'insight'
+  import { runAfterFirstMounted } from '@game/insight'
 
   runAfterFirstMounted(() => startMonitor())
   ```
@@ -299,7 +299,7 @@
 - 示例
 
   ```jsx
-  import { loadMicroApp } from 'insight'
+  import { loadMicroApp } from '@game/insight'
   import React from 'react'
 
   class App extends React.Component {
@@ -349,7 +349,7 @@
 - 示例
 
   ```ts
-  import { prefetchApps } from 'insight'
+  import { prefetchApps } from '@game/insight'
 
   prefetchApps([
     { name: 'app1', entry: '//locahost:7001' },
@@ -372,7 +372,7 @@
 - 示例
 
   ```ts
-  import { addGlobalUncaughtErrorHandler } from 'insight'
+  import { addGlobalUncaughtErrorHandler } from '@game/insight'
 
   addGlobalUncaughtErrorHandler(event => console.log(event))
   ```
@@ -390,7 +390,7 @@
 - 示例
 
   ```ts
-  import { removeGlobalUncaughtErrorHandler } from 'insight'
+  import { removeGlobalUncaughtErrorHandler } from '@game/insight'
 
   removeGlobalUncaughtErrorHandler(handler)
   ```
@@ -420,7 +420,7 @@
   主应用：
 
   ```ts
-  import { initGlobalState, MicroAppStateActions } from 'insight'
+  import { initGlobalState, MicroAppStateActions } from '@game/insight'
 
   // 初始化 state
   const actions: MicroAppStateActions = initGlobalState(state)

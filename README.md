@@ -9,7 +9,7 @@ inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qia
 ## 安装 & 使用
 
 ```
-npm i insight -S
+npm i @game/insight -S
 ```
 
 使用文档详见：

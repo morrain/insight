@@ -5,13 +5,13 @@
 ### 1. 安装 insight
 
 ```bash
-npm i insight -S
+npm i @game/insight -S
 ```
 
 ### 2. 在主应用中注册微应用
 
 ```ts
-import { registerMicroApps, start } from 'insight'
+import { registerMicroApps, start } from '@game/insight'
 
 registerMicroApps([
   {
@@ -45,7 +45,7 @@ start()
 如果微应用不是直接跟路由关联的时候，你也可以选择手动加载微应用的方式：
 
 ```ts
-import { loadMicroApp } from 'insight'
+import { loadMicroApp } from '@game/insight'
 
 loadMicroApp({
   name: 'vue3',

@@ -18,13 +18,13 @@ footer: MIT Licensed | Copyright © 2020-present Powered by game-fed
 ## 📦 安装
 
 ```shell
-$ npm i insight -S
+$ npm i @game/insight -S
 ```
 
 ## 🔨 使用
 
 ```tsx
-import { loadMicroApp } from 'insight'
+import { loadMicroApp } from '@game/insight'
 
 // 加载微应用
 loadMicroApp({
