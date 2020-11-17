@@ -32,6 +32,7 @@
     "lint": "eslint ./src",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "release": "(HUSKY_SKIP_HOOKS=1 standard-version) && npm run build && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -82,7 +83,8 @@
     }
   },
   "standard-version": {
-    "dryRun": true
+    "changelogHeader": "# Changelog\n\n所有项目的变更记录会记录在如下文件.\n",
+    "dryRun": false
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint"
