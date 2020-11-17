@@ -9,12 +9,5 @@ module.exports = {
   printWidth: 120,
   // 箭头函数只有一个参数时不使用括号
   arrowParens: 'avoid',
-  overrides: [
-    {
-      files: ['**/*.css', '**/*.scss', '**/*.less'],
-      options: {
-        singleQuote: false
-      }
-    }
-  ]
+  overrides: []
 }

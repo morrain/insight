@@ -81,7 +81,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,vue,html}": "eslint"
+    "*.{ts,tsx,js,jsx}": "eslint"
   },
   "config": {
     "commitizen": {
