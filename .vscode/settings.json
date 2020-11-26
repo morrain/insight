@@ -17,5 +17,7 @@
   "eslint.options": {
     "resolvePluginsRelativeTo": "",
     "configFile": ""
-  }
+  },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true
 }
