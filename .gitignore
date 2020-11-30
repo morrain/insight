@@ -2,6 +2,4 @@ npm-debug.log
 .DS_Store
 node_modules
 dist
-/lib
-/es
 /pnpm-lock.yaml
