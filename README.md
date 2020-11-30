@@ -38,6 +38,6 @@ npm run demo:install     // npm-run-all --serial build install:*
 npm run demo:start      // npm-run-all --parallel start:*
 ```
 
-因为加载的微服务 demo 都要启动一个服务，所以这里使用串行模式，保证所有 demo 的微服务都被启动。因为是串行的，所以启动服务的先顺序不确定，启动后要访问主工程[http://localhost:7099](http://localhost:7099)来查看演示 demo。
+启动后会打开 demo 主工程[http://localhost:7099](http://localhost:7099)的浏览器窗口，可以查看演示 demo。
 
 > 主工程配置见 demo/main/webpack.config.js

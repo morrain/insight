@@ -25,6 +25,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     port: '7099',
+    open: true,
     clientLogLevel: 'warning',
     disableHostCheck: true,
     compress: true,
