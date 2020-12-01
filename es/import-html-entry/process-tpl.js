@@ -1,4 +1,4 @@
-import _slicedToArray from "@babel/runtime/helpers/esm/slicedToArray";
+import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
 import { getInlineCode, isModuleScriptSupported } from './utils';
 var ALL_SCRIPT_REGEX = /(<script[\s\S]*?>)[\s\S]*?<\/script>/gi;
 var SCRIPT_TAG_REGEX = /<(script)[\t-\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+((?!type=('|')text\/ng\x2Dtemplate\3)[\s\S])*?>[\s\S]*?<\/\1>/i;

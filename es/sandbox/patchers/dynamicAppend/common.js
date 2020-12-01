@@ -81,7 +81,7 @@ function convertLinkAsStyle(element, postProcess) {
     styleElement.appendChild(document.createTextNode(styleContext));
     postProcess(styleElement);
     manualInvokeElementOnLoad(element);
-  }).catch(function () {
+  })["catch"](function () {
     return manualInvokeElementOnError(element);
   });
   return styleElement;
@@ -134,9 +134,9 @@ function getOverwrittenAppendChildOrInsertBefore(opts) {
         case LINK_TAG_NAME:
         case STYLE_TAG_NAME:
           {
-            var stylesheetElement = newChild;
-            var _stylesheetElement = stylesheetElement,
-                href = _stylesheetElement.href;
+            var _stylesheetElement = newChild;
+            var _ref = _stylesheetElement,
+                href = _ref.href;
 
             if (excludeAssetFilter && href && excludeAssetFilter(href)) {
               return rawDOMAppendOrInsertBefore.call(this, element, refChild);
@@ -152,26 +152,26 @@ function getOverwrittenAppendChildOrInsertBefore(opts) {
 
               if (linkElementUsingStylesheet) {
                 var _fetch = frameworkConfiguration.fetch;
-                stylesheetElement = convertLinkAsStyle(element, function (styleElement) {
+                _stylesheetElement = convertLinkAsStyle(element, function (styleElement) {
                   return css.process(mountDOM, styleElement, appName);
                 }, _fetch);
-                dynamicLinkAttachedInlineStyleMap.set(element, stylesheetElement);
+                dynamicLinkAttachedInlineStyleMap.set(element, _stylesheetElement);
               } else {
-                css.process(mountDOM, stylesheetElement, appName);
+                css.process(mountDOM, _stylesheetElement, appName);
               }
             } // eslint-disable-next-line no-shadow
 
 
-            dynamicStyleSheetElements.push(stylesheetElement);
+            dynamicStyleSheetElements.push(_stylesheetElement);
             var referenceNode = mountDOM.contains(refChild) ? refChild : null;
-            return rawDOMAppendOrInsertBefore.call(mountDOM, stylesheetElement, referenceNode);
+            return rawDOMAppendOrInsertBefore.call(mountDOM, _stylesheetElement, referenceNode);
           }
 
         case SCRIPT_TAG_NAME:
           {
-            var _element = element,
-                src = _element.src,
-                text = _element.text; // some script like jsonp maybe not support cors which should't use execScripts
+            var _ref2 = element,
+                src = _ref2.src,
+                text = _ref2.text; // some script like jsonp maybe not support cors which should't use execScripts
 
             if (excludeAssetFilter && src && excludeAssetFilter(src)) {
               return rawDOMAppendOrInsertBefore.call(this, element, refChild);
@@ -231,7 +231,8 @@ function getOverwrittenAppendChildOrInsertBefore(opts) {
 
 function getNewRemoveChild(headOrBodyRemoveChild, appWrapperGetterGetter) {
   return function removeChild(child) {
-    var tagName = child.tagName;
+    var _ref3 = child,
+        tagName = _ref3.tagName;
     if (!isHijackingTag(tagName)) return headOrBodyRemoveChild.call(this, child);
 
     try {

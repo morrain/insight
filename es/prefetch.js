@@ -1,13 +1,14 @@
 import _isFunction from "lodash/isFunction";
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _asyncToGenerator from "@babel/runtime/helpers/esm/asyncToGenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { importEntry } from './import-html-entry';
-import { getAppStatus, getMountedApps, NOT_LOADED } from 'single-spa'; // RIC and shim for browsers setTimeout() without it
+import { getAppStatus, getMountedApps, NOT_LOADED } from 'single-spa';
 
+// RIC and shim for browsers setTimeout() without it
 var requestIdleCallback = window.requestIdleCallback || function requestIdleCallback(cb) {
   var start = Date.now();
   return setTimeout(function () {

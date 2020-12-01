@@ -1,12 +1,13 @@
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
-import _createClass from "@babel/runtime/helpers/esm/createClass";
+import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
+import _createClass from "@babel/runtime/helpers/createClass";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import { SandBoxType } from '../interfaces';
 
 function iter(obj, callbackFn) {
   // eslint-disable-next-line guard-for-in, no-restricted-syntax
-  for (var prop in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-      callbackFn(prop);
+  for (var _prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, _prop)) {
+      callbackFn(_prop);
     }
   }
 }
@@ -19,8 +20,18 @@ var SnapshotSandbox = /*#__PURE__*/function () {
   function SnapshotSandbox(name) {
     _classCallCheck(this, SnapshotSandbox);
 
-    this.sandboxRunning = true;
-    this.modifyPropsMap = {};
+    _defineProperty(this, "proxy", void 0);
+
+    _defineProperty(this, "name", void 0);
+
+    _defineProperty(this, "type", void 0);
+
+    _defineProperty(this, "sandboxRunning", true);
+
+    _defineProperty(this, "windowSnapshot", void 0);
+
+    _defineProperty(this, "modifyPropsMap", {});
+
     this.name = name;
     this.proxy = window;
     this.type = SandBoxType.Snapshot;

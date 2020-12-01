@@ -1,4 +1,4 @@
-import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import { SandBoxType } from '../../interfaces';
 import * as css from './css';
 import { patchLooseSandbox, patchStrictSandbox } from './dynamicAppend';

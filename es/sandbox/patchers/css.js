@@ -1,14 +1,13 @@
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
-import _createClass from "@babel/runtime/helpers/esm/createClass";
+import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
+import _createClass from "@babel/runtime/helpers/createClass";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 // https://developer.mozilla.org/en-US/docs/Web/API/CSSRule
 var RuleType;
 
 (function (RuleType) {
-  // type: rule will be rewrote
   RuleType[RuleType["STYLE"] = 1] = "STYLE";
   RuleType[RuleType["MEDIA"] = 4] = "MEDIA";
-  RuleType[RuleType["SUPPORTS"] = 12] = "SUPPORTS"; // type: value will be kept
-
+  RuleType[RuleType["SUPPORTS"] = 12] = "SUPPORTS";
   RuleType[RuleType["IMPORT"] = 3] = "IMPORT";
   RuleType[RuleType["FONT_FACE"] = 5] = "FONT_FACE";
   RuleType[RuleType["PAGE"] = 6] = "PAGE";
@@ -24,6 +23,10 @@ var rawDocumentBodyAppend = HTMLBodyElement.prototype.appendChild;
 export var ScopedCSS = /*#__PURE__*/function () {
   function ScopedCSS() {
     _classCallCheck(this, ScopedCSS);
+
+    _defineProperty(this, "sheet", void 0);
+
+    _defineProperty(this, "swapNode", void 0);
 
     var styleNode = document.createElement('style');
     rawDocumentBodyAppend.call(document.body, styleNode);
@@ -73,7 +76,8 @@ export var ScopedCSS = /*#__PURE__*/function () {
             var _css = _this.rewrite(_rules, prefix); // eslint-disable-next-line no-param-reassign
 
 
-            styleNode.textContent = _css;
+            styleNode.textContent = _css // eslint-disable-next-line no-param-reassign
+            ;
             styleNode[ScopedCSS.ModifiedTag] = true;
           }
         }
@@ -185,7 +189,9 @@ export var ScopedCSS = /*#__PURE__*/function () {
 
   return ScopedCSS;
 }();
-ScopedCSS.ModifiedTag = 'Symbol(style-modified-insight)';
+
+_defineProperty(ScopedCSS, "ModifiedTag", 'Symbol(style-modified-insight)');
+
 var processor;
 export var InSightCSSRewriteAttr = 'data-insight';
 export var process = function process(appWrapper, stylesheetElement, appName) {

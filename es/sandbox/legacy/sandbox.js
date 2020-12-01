@@ -1,7 +1,8 @@
-import _toConsumableArray from "@babel/runtime/helpers/esm/toConsumableArray";
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
-import _createClass from "@babel/runtime/helpers/esm/createClass";
-import _typeof from "@babel/runtime/helpers/esm/typeof";
+import _toConsumableArray from "@babel/runtime/helpers/toConsumableArray";
+import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
+import _createClass from "@babel/runtime/helpers/createClass";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
+import _typeof from "@babel/runtime/helpers/typeof";
 import { SandBoxType } from '../../interfaces';
 import { getTargetValue } from '../common';
 
@@ -29,18 +30,59 @@ function setWindowProp(prop, value, toDelete) {
 
 
 var SingularProxySandbox = /*#__PURE__*/function () {
+  _createClass(SingularProxySandbox, [{
+    key: "active",
+
+    /** 沙箱期间新增的全局变量 */
+
+    /** 沙箱期间更新的全局变量 */
+
+    /** 持续记录更新的(新增和修改的)全局变量的 map，用于在任意时刻做 snapshot */
+    value: function active() {
+      if (!this.sandboxRunning) {
+        this.currentUpdatedPropsValueMap.forEach(function (v, p) {
+          return setWindowProp(p, v);
+        });
+      }
+
+      this.sandboxRunning = true;
+    }
+  }, {
+    key: "inactive",
+    value: function inactive() {
+      if (process.env.NODE_ENV === 'development') {
+        console.info("[insight:sandbox] ".concat(this.name, " modified global properties restore..."), [].concat(_toConsumableArray(this.addedPropsMapInSandbox.keys()), _toConsumableArray(this.modifiedPropsOriginalValueMapInSandbox.keys())));
+      } // renderSandboxSnapshot = snapshot(currentUpdatedPropsValueMapForSnapshot);
+      // restore global props to initial snapshot
+
+
+      this.modifiedPropsOriginalValueMapInSandbox.forEach(function (v, p) {
+        return setWindowProp(p, v);
+      });
+      this.addedPropsMapInSandbox.forEach(function (_, p) {
+        return setWindowProp(p, undefined, true);
+      });
+      this.sandboxRunning = false;
+    }
+  }]);
+
   function SingularProxySandbox(name) {
     _classCallCheck(this, SingularProxySandbox);
 
-    /** 沙箱期间新增的全局变量 */
-    this.addedPropsMapInSandbox = new Map();
-    /** 沙箱期间更新的全局变量 */
+    _defineProperty(this, "addedPropsMapInSandbox", new Map());
 
-    this.modifiedPropsOriginalValueMapInSandbox = new Map();
-    /** 持续记录更新的(新增和修改的)全局变量的 map，用于在任意时刻做 snapshot */
+    _defineProperty(this, "modifiedPropsOriginalValueMapInSandbox", new Map());
 
-    this.currentUpdatedPropsValueMap = new Map();
-    this.sandboxRunning = true;
+    _defineProperty(this, "currentUpdatedPropsValueMap", new Map());
+
+    _defineProperty(this, "name", void 0);
+
+    _defineProperty(this, "proxy", void 0);
+
+    _defineProperty(this, "type", void 0);
+
+    _defineProperty(this, "sandboxRunning", true);
+
     this.name = name;
     this.type = SandBoxType.LegacyProxy;
     var addedPropsMapInSandbox = this.addedPropsMapInSandbox,
@@ -61,7 +103,9 @@ var SingularProxySandbox = /*#__PURE__*/function () {
             modifiedPropsOriginalValueMapInSandbox.set(p, originalValue);
           }
 
-          currentUpdatedPropsValueMap.set(p, value);
+          currentUpdatedPropsValueMap.set(p, value) // 必须重新设置 window 对象保证下次 get 时能拿到已更新的数据
+          // eslint-disable-next-line no-param-reassign
+          ;
           rawWindow[p] = value;
           return true;
         }
@@ -92,36 +136,6 @@ var SingularProxySandbox = /*#__PURE__*/function () {
     });
     this.proxy = proxy;
   }
-
-  _createClass(SingularProxySandbox, [{
-    key: "active",
-    value: function active() {
-      if (!this.sandboxRunning) {
-        this.currentUpdatedPropsValueMap.forEach(function (v, p) {
-          return setWindowProp(p, v);
-        });
-      }
-
-      this.sandboxRunning = true;
-    }
-  }, {
-    key: "inactive",
-    value: function inactive() {
-      if (process.env.NODE_ENV === 'development') {
-        console.info("[insight:sandbox] ".concat(this.name, " modified global properties restore..."), [].concat(_toConsumableArray(this.addedPropsMapInSandbox.keys()), _toConsumableArray(this.modifiedPropsOriginalValueMapInSandbox.keys())));
-      } // renderSandboxSnapshot = snapshot(currentUpdatedPropsValueMapForSnapshot);
-      // restore global props to initial snapshot
-
-
-      this.modifiedPropsOriginalValueMapInSandbox.forEach(function (v, p) {
-        return setWindowProp(p, v);
-      });
-      this.addedPropsMapInSandbox.forEach(function (_, p) {
-        return setWindowProp(p, undefined, true);
-      });
-      this.sandboxRunning = false;
-    }
-  }]);
 
   return SingularProxySandbox;
 }();

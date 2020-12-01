@@ -1,5 +1,5 @@
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _asyncToGenerator from "@babel/runtime/helpers/esm/asyncToGenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 var rawPublicPath = window.__INJECTED_PUBLIC_PATH_BY_INSIGHT__;
 export default function getAddOn(global) {
   var publicPath = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '/';

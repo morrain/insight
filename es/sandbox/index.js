@@ -1,6 +1,6 @@
-import _toConsumableArray from "@babel/runtime/helpers/esm/toConsumableArray";
+import _toConsumableArray from "@babel/runtime/helpers/toConsumableArray";
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _asyncToGenerator from "@babel/runtime/helpers/esm/asyncToGenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 import LegacySandbox from './legacy/sandbox';
 import { patchAtBootstrapping, patchAtMounting } from './patchers';
 import ProxySandbox from './proxySandbox';

@@ -1,4 +1,4 @@
-import _defineProperty from "@babel/runtime/helpers/esm/defineProperty";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _cloneDeep from "lodash/cloneDeep";
 var globalState = {};
 var deps = {}; // 触发全局监听

@@ -1,6 +1,7 @@
-import _toConsumableArray from "@babel/runtime/helpers/esm/toConsumableArray";
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
-import _createClass from "@babel/runtime/helpers/esm/createClass";
+import _toConsumableArray from "@babel/runtime/helpers/toConsumableArray";
+import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
+import _createClass from "@babel/runtime/helpers/createClass";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 
 /* eslint-disable no-param-reassign */
 import { SandBoxType } from '../interfaces';
@@ -59,7 +60,7 @@ function createFakeWindow(global) {
 
   Object.getOwnPropertyNames(global).filter(function (p) {
     var descriptor = Object.getOwnPropertyDescriptor(global, p);
-    return !(descriptor === null || descriptor === void 0 ? void 0 : descriptor.configurable);
+    return !(descriptor !== null && descriptor !== void 0 && descriptor.configurable);
   }).forEach(function (p) {
     var descriptor = Object.getOwnPropertyDescriptor(global, p);
 
@@ -103,12 +104,50 @@ var activeSandboxCount = 0;
  */
 
 var ProxySandbox = /*#__PURE__*/function () {
+  _createClass(ProxySandbox, [{
+    key: "active",
+
+    /** window 值变更记录 */
+    value: function active() {
+      if (!this.sandboxRunning) activeSandboxCount++;
+      this.sandboxRunning = true;
+    }
+  }, {
+    key: "inactive",
+    value: function inactive() {
+      var _this = this;
+
+      if (process.env.NODE_ENV === 'development') {
+        console.info("[insight:sandbox] ".concat(this.name, " modified global properties restore..."), _toConsumableArray(this.updatedValueSet.keys()));
+      }
+
+      if (--activeSandboxCount === 0) {
+        variableWhiteList.forEach(function (p) {
+          if (Object.prototype.hasOwnProperty.call(_this.proxy, p)) {
+            // @ts-expect-error
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+            delete window[p];
+          }
+        });
+      }
+
+      this.sandboxRunning = false;
+    }
+  }]);
+
   function ProxySandbox(name) {
     _classCallCheck(this, ProxySandbox);
 
-    /** window 值变更记录 */
-    this.updatedValueSet = new Set();
-    this.sandboxRunning = true;
+    _defineProperty(this, "updatedValueSet", new Set());
+
+    _defineProperty(this, "name", void 0);
+
+    _defineProperty(this, "type", void 0);
+
+    _defineProperty(this, "proxy", void 0);
+
+    _defineProperty(this, "sandboxRunning", true);
+
     this.name = name;
     this.type = SandBoxType.Proxy;
     var updatedValueSet = this.updatedValueSet; // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -250,7 +289,7 @@ var ProxySandbox = /*#__PURE__*/function () {
           // @ts-expect-error
           // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
           delete target[p];
-          updatedValueSet.delete(p);
+          updatedValueSet["delete"](p);
           return true;
         }
 
@@ -259,35 +298,6 @@ var ProxySandbox = /*#__PURE__*/function () {
     });
     this.proxy = proxy;
   }
-
-  _createClass(ProxySandbox, [{
-    key: "active",
-    value: function active() {
-      if (!this.sandboxRunning) activeSandboxCount++;
-      this.sandboxRunning = true;
-    }
-  }, {
-    key: "inactive",
-    value: function inactive() {
-      var _this = this;
-
-      if (process.env.NODE_ENV === 'development') {
-        console.info("[insight:sandbox] ".concat(this.name, " modified global properties restore..."), _toConsumableArray(this.updatedValueSet.keys()));
-      }
-
-      if (--activeSandboxCount === 0) {
-        variableWhiteList.forEach(function (p) {
-          if (Object.prototype.hasOwnProperty.call(_this.proxy, p)) {
-            // @ts-expect-error
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-            delete window[p];
-          }
-        });
-      }
-
-      this.sandboxRunning = false;
-    }
-  }]);
 
   return ProxySandbox;
 }();

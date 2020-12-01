@@ -1,4 +1,4 @@
-import _typeof from "@babel/runtime/helpers/esm/typeof";
+import _typeof from "@babel/runtime/helpers/typeof";
 var isIE11 = typeof navigator !== 'undefined' && navigator.userAgent.indexOf('Trident') !== -1;
 
 function shouldSkipProperty(global, p) {

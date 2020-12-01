@@ -1,5 +1,6 @@
-import _typeof from "@babel/runtime/helpers/esm/typeof";
-import _classCallCheck from "@babel/runtime/helpers/esm/classCallCheck";
+import _typeof from "@babel/runtime/helpers/typeof";
+import _classCallCheck from "@babel/runtime/helpers/classCallCheck";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _isFunction from "lodash/isFunction";
 export function noop() {}
 export function toArray(array) {
@@ -84,6 +85,12 @@ var Deferred = function Deferred() {
   var _this = this;
 
   _classCallCheck(this, Deferred);
+
+  _defineProperty(this, "promise", void 0);
+
+  _defineProperty(this, "resolve", void 0);
+
+  _defineProperty(this, "reject", void 0);
 
   this.promise = new Promise(function (resolve, reject) {
     _this.resolve = resolve;

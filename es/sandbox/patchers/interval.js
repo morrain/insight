@@ -1,4 +1,4 @@
-import _toConsumableArray from "@babel/runtime/helpers/esm/toConsumableArray";
+import _toConsumableArray from "@babel/runtime/helpers/toConsumableArray";
 
 /* eslint-disable no-param-reassign */
 import { noop } from '../../utils';

@@ -194,7 +194,7 @@ function _execScripts(entry, scripts) {
           // external script marked with async
           inlineScript.async && (inlineScript === null || inlineScript === void 0 ? void 0 : inlineScript.content.then(function (downloadedScriptText) {
             return geval(inlineScript.src, downloadedScriptText);
-          }).catch(function (e) {
+          })["catch"](function (e) {
             throwNonBlockingError(e, "[import-html-entry]: error occurs while executing async script ".concat(inlineScript.src));
           }));
         }

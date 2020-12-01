@@ -1,5 +1,5 @@
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _asyncToGenerator from "@babel/runtime/helpers/esm/asyncToGenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
 export default function getAddOn(global) {
   return {
     beforeLoad: function beforeLoad() {

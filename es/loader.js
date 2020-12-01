@@ -1,10 +1,14 @@
-import _objectSpread from "@babel/runtime/helpers/esm/objectSpread2";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _concat from "lodash/concat";
 import _mergeWith2 from "lodash/mergeWith";
-import _typeof from "@babel/runtime/helpers/esm/typeof";
-import _objectWithoutProperties from "@babel/runtime/helpers/esm/objectWithoutProperties";
+import _typeof from "@babel/runtime/helpers/typeof";
+import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
 import _regeneratorRuntime from "@babel/runtime/regenerator";
-import _asyncToGenerator from "@babel/runtime/helpers/esm/asyncToGenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /* eslint-disable @typescript-eslint/promise-function-async */
 import { importEntry } from './import-html-entry';
@@ -147,6 +151,7 @@ function getAppWrapperGetter(appName, appInstanceId, useLegacyRender, strictStyl
 
 var rawAppendChild = HTMLElement.prototype.appendChild;
 var rawRemoveChild = HTMLElement.prototype.removeChild;
+
 /**
  * Get the render function
  * If the legacy render function is provide, used as it, otherwise we will insert the app element to target container by insight
@@ -154,7 +159,6 @@ var rawRemoveChild = HTMLElement.prototype.removeChild;
  * @param appContent
  * @param legacyRender
  */
-
 function getRender(appName, appContent, legacyRender) {
   var render = function render(_ref, phase) {
     var element = _ref.element,
