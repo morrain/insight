@@ -18,7 +18,7 @@
     "lib"
   ],
   "scripts": {
-    "demo:install": "npm-run-all --serial build install:*",
+    "demo:install": "npm-run-all --serial build:esm:dev install:*",
     "demo:start": "npm-run-all --parallel start:*",
     "install:main": "cd demo/main && npm i",
     "start:main": "cd demo/main && npm run start",
@@ -28,11 +28,13 @@
     "start:purehtml": "cd demo/purehtml && npm start",
     "install:vue3": "cd demo/vue3 && npm i",
     "start:vue3": "cd demo/vue3 && npm start",
-    "build": "father-build",
-    "lint": "eslint ./src",
+    "build:esm": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js && tsc",
+    "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
+    "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "release": "(HUSKY_SKIP_HOOKS=1 standard-version) && npm run build && npm publish",
+    "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
+    "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "cz"
   },
@@ -43,6 +45,11 @@
   "author": "morrain",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.7",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@types/lodash": "^4.14.165",
@@ -50,6 +57,7 @@
     "@typescript-eslint/parser": "^4.8.2",
     "babel-plugin-import": "^1.12.1",
     "commitizen": "^4.2.2",
+    "cross-env": "^7.0.2",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
@@ -62,7 +70,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.1.0",
     "eslint-plugin-vue": "^7.1.0",
-    "father-build": "^1.18.5",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.2",
     "npm-run-all": "^4.1.5",
@@ -85,7 +92,7 @@
   },
   "standard-version": {
     "changelogHeader": "# Changelog\n\n所有项目的变更记录会记录在如下文件.\n",
-    "dryRun": false
+    "dryRun": true
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint"

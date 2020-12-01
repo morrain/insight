@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "emitDeclarationOnly": true,
     "target": "esnext",
     "strict": true,
+    "isolatedModules": true,
     "allowJs": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
-    "rootDir": "./src",
+    "outDir": "./es",
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"
