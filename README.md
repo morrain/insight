@@ -142,8 +142,8 @@ insight
     "build:esm": "rm -rf es && cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js && tsc",
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
+    "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
+    "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build docs",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
     "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -173,11 +173,11 @@ insight
 
 6. docs:dev
 
-   开发文档
+   开发文档。把根目录下的 CHANGELOG.md 文件拷贝到文档目录
 
 7. docs:build
 
-   生成文档
+   生成文档。把根目录下的 CHANGELOG.md 文件拷贝到文档目录
 
 8. release:pre
 

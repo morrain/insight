@@ -7,7 +7,7 @@ module.exports = {
       { text: 'Guide', link: '/guide/' },
       {
         text: '更新日志',
-        link: 'https://gitlab.vmic.xyz/game-common/insight/CHANGELOG.md'
+        link: '/changelog/'
       }
     ],
     sidebar: ['/guide/', '/guide/getting-started', '/api/', '/faq/'],
