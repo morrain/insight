@@ -44,7 +44,7 @@ registerMicroApps(
       container: '#subapp-viewport',
       loader,
       activeRule: '/vue3',
-    },
+    }
   ],
   {
     beforeLoad: [
@@ -82,14 +82,15 @@ setGlobalState({
  * Step3 设置默认进入的子应用
  */
 // setDefaultMountApp('/react16');
-// loadMicroApp(    {
-//   name: 'vue3',
-//   entry: '//localhost:7101',
-//   container: '#subapp-container1',
-//   props:{
-//     id:'123456'
-//   }
-// })
+loadMicroApp({
+    name: 'gamecard',
+    entry: '//localhost:7104/game-card/',
+    container: '#gamecard-container',
+    props:{
+      moduleId: 184,
+      origin: 'demo'
+    }
+})
 /**
  * Step4 启动应用
  */

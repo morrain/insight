@@ -22,7 +22,7 @@ const { name } = require('./package');
 
 module.exports = {
   entry: './index.js',
-  devtool: 'source-map',
+  devtool: 'eval',
   devServer: {
     port: '7099',
     open: true,

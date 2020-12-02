@@ -28,6 +28,8 @@
     "start:purehtml": "cd demo/purehtml && npm start",
     "install:vue3": "cd demo/vue3 && npm i",
     "start:vue3": "cd demo/vue3 && npm start",
+    "install:game-card": "cd demo/game-card && npm i",
+    "start:game-card": "cd demo/game-card && npm start",
     "build:esm": "rm -rf es && cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js && tsc",
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
