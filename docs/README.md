@@ -10,8 +10,8 @@ features:
     details: 任意 js 框架均可使用。微应用接入像使用接入一个 iframe 系统一样简单，但实际不是 iframe。
   - title: 完备
     details: 几乎包含所有构建微前端系统时所需要的基本能力，如 样式隔离、js 沙箱、预加载等。
-  - title: 可用
-    details: 从乾坤而来，经过线上项目考验，值得信赖。增加了微应用管理和数据统计的功能，优化了包加载机制。
+  - title: 好用
+    details: 从乾坤而来，经过线上项目考验，值得信赖。增加了微应用管理和数据统计的功能，完善打包以及调试功能。
 footer: MIT Licensed | Copyright © 2020-present Powered by game-fed
 ---
 
@@ -23,16 +23,17 @@ $ npm i @game/insight -S
 
 ## 🔨 使用
 
-```tsx
+```js
 import { loadMicroApp } from '@game/insight'
 
 // 加载微应用
 loadMicroApp({
-  name: 'vue',
-  entry: '//localhost:7100',
-  container: '#container',
+  name: 'gamecard',
+  entry: '//localhost:7104/game-card/',
+  container: '#gamecard-container',
   props: {
-    slogan: 'Hello InSight'
+    moduleId: 184,
+    origin: 'demo'
   }
 })
 ```
