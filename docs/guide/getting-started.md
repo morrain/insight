@@ -157,10 +157,12 @@ module.exports = {
 </body>
 ```
 
+### 非 webpack 构建的子应用接入
+
 对于非 webpack 构建的子应用，需要额外声明一个 script，用于导出相对应的生命周期钩子。
 例如:
 
-### 1. 声明 entry 入口
+#### 1. 声明 entry 入口
 
 ```html
 <!DOCTYPE html>
@@ -179,7 +181,7 @@ module.exports = {
 </html>
 ```
 
-2. 在 entry js 里导出生命周期钩子到 window 上
+#### 2. 在 entry js 里导出生命周期钩子到 window 上
 
 ```javascript
 const render = $ => {
@@ -206,3 +208,133 @@ const render = $ => {
 ```
 
 你可以直接参照 examples 中 purehtml 部分的代码。
+
+### 子应用接入注意事项
+
+#### 1. 子应用所有资源需要允许跨域
+
+生产环境下，需要使用运维手段，配置 Nginx
+
+开发环境下，可以通过 devServer 配置请求头，如下所示：
+
+```js
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  }
+```
+
+#### 2. 子应用资源路径要设置成绝对路径
+
+由于子应用的静态资源是通过 window.fetch 获取的，所以如果使用相对路径，接入到主应用中时会相对于主应用的域名发出请求。所以推荐将静态资源以及接口的路径都在打包时处理成为绝对路径。
+
+如下所示，静态资源设置 publicPath 配置，值为不同环境下的地址，譬如 开发环境就为 'http://localhost:7104/game-card/'，测试环境可能就是 'https://gamebbsh5-test.vivo.com.cn/game-card/'，依次类推设置
+
+```js
+const assetsPublicPath = `${process.env.VUE_APP_WEBSITE_URL}/game-card/`
+
+module.exports = {
+  publicPath: assetsPublicPath,
+  // 自定义webpack配置
+  chainWebpack: config => {
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => {
+        // 修改它的选项...
+        return {
+          limit: 4096, // 小于4kb将会被打包成 base64
+          fallback: {
+            loader: 'file-loader',
+            options: {
+              name: 'img/[name].[hash:8].[ext]',
+              publicPath: assetsPublicPath
+            }
+          }
+        }
+      })
+
+    config.module
+      .rule('fonts')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => {
+        // 修改它的选项...
+        return {
+          limit: 4096, // 小于4kb将会被打包成 base64
+          fallback: {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name].[hash:8].[ext]',
+              publicPath: assetsPublicPath
+            }
+          }
+        }
+      })
+  }
+}
+```
+
+另外，对于 css 中使用的图片还有字体文件，也需要作相应的处理。推荐使用 `url-loader` 把小于 4k 的直接打包 base64 格式的，对于大于 4k 的图片和字体，借助 `file-loader` 在打包时注入绝对路径。如上面配置所示。
+
+最后，api 接口也需要设置为绝对路径，如下示例所示：
+
+```js
+import fetch from './base'
+
+const SERVER_URL = process.env.VUE_APP_SERVER_URL
+/**
+ * 请求游戏卡片信息
+ * @param {*} params
+ */
+export const getGameInfo = async params => {
+  try {
+    const res = await fetch({
+      url: `${SERVER_URL}/mvc/v3/module/getRelGameInfo`,
+      params
+    })
+    return res.data
+  } catch (e) {
+    console.error('请求卡片信息失败')
+  }
+}
+```
+
+#### 3. 避免通过 document 操作 DOM
+
+由于子应用是通过 window.fetch 获取到以 DOM 元素形式插入到主应用中，所以在子应用中如果直接使用 document 操作 DOM，实际上是更新主应用的 DOM。举一个比较实际的例子，对于移动端适配，目前常用的方案是 rem + flexible 的方案，此方案的原理就是根据屏幕宽度和设备像素比设置根元素的 `font-size`，然后再利用构建工具把源码中的 `px` 转化 `rem` 达到在不同设备上显示一致目的。
+
+如果在子应用中运用这个方案，那么子应用会把 `font-size` 设置到主应用的根节点，不光会影响到全局，还让主应用和子应用产生了耦合。所以子应用接入时，避免使用此方案，可以替换成 `viewport` 方案，直接根据设备宽度计算，不需要设置 `font-size` 值。
+
+#### 4. 子应用独立运行
+
+微前端的框架就是为了主应用和子应用不耦合，能够独立运行和部署，所以子应用也应该是能够独立运行的完整的 web 服务。从上面我们知道，我们在子应用中导出了生命周期钩子给主应用使用，所以在主应用内加载的子应用，它的渲染是由主应用触发并管理的，那如果独立运行子应用呢？
+
+`@game/insight` 中会在加载子应用之前，往 `window` 上注入 `__POWERED_BY_INSIGHT__` 全局变量，所以可以子应用中通过该全局变量来启动并渲染子应用，从而实现子应用单独运行的目的。
+
+如下面实例所述：
+
+```js
+if (!window.__POWERED_BY_INSIGHT__) {
+  // 非使用 insight 加载时，参数由查询参数提供
+  const moduleId = url.getQueryValue('moduleId')
+  const origin = url.getQueryValue('origin')
+  store.commit(MUT_SET_MODULE_ID, moduleId)
+  store.commit(MUT_SET_ORIGIN, origin)
+  render()
+}
+
+export async function bootstrap() {
+  console.log('%c ', 'color: green;', '游戏卡片微服务启动...')
+}
+
+export async function mount(props) {
+  console.log('[game-card] props from origin', props)
+  // 微服务模式下，参数由宿主提供
+  store.commit(MUT_SET_MODULE_ID, props.moduleId)
+  store.commit(MUT_SET_ORIGIN, props.origin)
+  render(props.container)
+}
+```
