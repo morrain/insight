@@ -1,14 +1,9 @@
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, loadMicroApp } from '../../es';
 import './index.less';
 
-// for angular subapp
-import 'zone.js';
-
 /**
  * 主应用 **可以使用任意技术栈**
- * 以下分别是 React 和 Vue 的示例，可切换尝试
  */
-// import render from './render/ReactRender';
 import render from './render/VueRender';
 
 /**
@@ -28,7 +23,7 @@ registerMicroApps(
       name: 'vue',
       entry: '//localhost:7101',
       container: '#subapp-viewport',
-      loader,
+      loader, // 开始加载时，回调参数 loading 为 true，表示开始加载，加载完成后再次调用该函数， loading值为 false 表示加载结束
       activeRule: '/vue',
     },
     {
@@ -57,6 +52,16 @@ registerMicroApps(
         console.log('[LifeCycle] before mount %c%s', 'color: green;', app.name);
       },
     ],
+    afterMount: [
+      app => {
+        console.log('[LifeCycle] after mount %c%s', 'color: green;', app.name);
+      },
+    ],
+    beforeUnmount: [
+      app => {
+        console.log('[LifeCycle] before unmount %c%s', 'color: green;', app.name);
+      },
+    ],
     afterUnmount: [
       app => {
         console.log('[LifeCycle] after unmount %c%s', 'color: green;', app.name);
@@ -81,7 +86,7 @@ setGlobalState({
 /**
  * Step3 设置默认进入的子应用
  */
-// setDefaultMountApp('/react16');    
+setDefaultMountApp('/vue3');    
 loadMicroApp({
     name: 'gamecard',
     entry: '//localhost:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
