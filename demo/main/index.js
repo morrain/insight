@@ -1,6 +1,7 @@
-import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, loadMicroApp } from '../../es';
+import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState } from '../../es';
 import './index.less';
 
+import update from  './load' // 加载手动加载卡片的 demo
 /**
  * 主应用 **可以使用任意技术栈**
  */
@@ -55,6 +56,7 @@ registerMicroApps(
     afterMount: [
       app => {
         console.log('[LifeCycle] after mount %c%s', 'color: green;', app.name);
+        update(app.name)
       },
     ],
     beforeUnmount: [
@@ -87,19 +89,13 @@ setGlobalState({
  * Step3 设置默认进入的子应用
  */
 setDefaultMountApp('/vue3');    
-loadMicroApp({
-    name: 'gamecard',
-    entry: '//localhost:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
-    container: '#gamecard-container',
-    props:{
-      moduleId: 184,
-      origin: 'demo'
-    }
-})
+
 /**
  * Step4 启动应用
  */
-start();
+start({
+  prefetch: ['purehtml'] // 预加载 purehtml
+});
 
 runAfterFirstMounted(() => {
   console.log('[MainApp] first app mounted');
