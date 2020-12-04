@@ -81,10 +81,10 @@ setGlobalState({
 /**
  * Step3 设置默认进入的子应用
  */
-// setDefaultMountApp('/react16');
+// setDefaultMountApp('/react16');    
 loadMicroApp({
     name: 'gamecard',
-    entry: '//localhost:7104/game-card/',
+    entry: '//localhost:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
     container: '#gamecard-container',
     props:{
       moduleId: 184,
