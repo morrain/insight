@@ -4,7 +4,7 @@
 
 **更懂你的微前端解决方案**
 
-inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qiankun](https://qiankun.umijs.org/zh) 的微前端解决方案，增加了微应用管理和数据统计的功能，优化了包加载机制，依赖的包体大小更小。改变了打包方式，增加 sourcemap，方便开发调试。
+inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qiankun](https://qiankun.umijs.org/zh) 的微前端解决方案，增加了微应用管理和数据统计的功能，优化了包加载机制，依赖的包体大小更小。改变了打包方式，增加 sourcemap，方便开发调试。也修复了 qiankun 中部分 api 文档不准的问题，手动加载的微应用增加生命周期钩子。
 
 更多需求后续逐步根据需要增加。
 

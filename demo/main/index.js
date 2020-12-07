@@ -1,7 +1,7 @@
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState } from '../../es';
 import './index.less';
 
-import update from  './load' // 加载手动加载卡片的 demo
+import {load, update} from  './load' // 加载手动加载卡片的 demo
 /**
  * 主应用 **可以使用任意技术栈**
  */
@@ -56,7 +56,7 @@ registerMicroApps(
     afterMount: [
       app => {
         console.log('[LifeCycle] after mount %c%s', 'color: green;', app.name);
-        update(app.name)
+        update(app.name) // 切换应用后，相应的更新卡片
       },
     ],
     beforeUnmount: [
@@ -88,7 +88,7 @@ setGlobalState({
 /**
  * Step3 设置默认进入的子应用
  */
-setDefaultMountApp('/vue3');    
+// setDefaultMountApp('/vue3');    
 
 /**
  * Step4 启动应用
@@ -99,4 +99,5 @@ start({
 
 runAfterFirstMounted(() => {
   console.log('[MainApp] first app mounted');
+  load()// 第一个应用加载完成后开始加载卡片
 });
