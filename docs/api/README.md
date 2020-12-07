@@ -12,27 +12,7 @@
 
 由于两种模式底层加载的机制和原理是一样的，所以有一些公共的 api 以及 参数。
 
-## 公共 api 以及数据结构
-
-### `runAfterFirstMounted(callback)`
-
-- 参数
-
-  - callback - `() => void` - 必选
-
-- 用法
-
-  第一个微应用 mount 后需要调用的方法，比如开启一些监控或者埋点脚本。**不管是手动加载还是基于路由模式加载，都会触发此回调。**
-
-- 示例
-
-  ```js
-  import { runAfterFirstMounted } from '@game/insight'
-
-  runAfterFirstMounted(() => {
-    // do your works
-  })
-  ```
+## 公共数据结构
 
 **如下是两种模式下 api 公共的数据结构，包括参数以及返回值等，这里只需要了解概念即可，具体说明和使用可以参考两种加载模式下具体的 api 说明文档**
 
@@ -413,7 +393,176 @@
   setDefaultMountApp('/homeApp')
   ```
 
-## [addErrorHandler/removeErrorHandler](https://single-spa.js.org/docs/api#adderrorhandler)
+## `runAfterFirstMounted(callback)`
+
+- 参数
+
+  - callback - `() => void` - 必选
+
+- 用法
+
+  第一个微应用 mount 后需要调用的方法，比如开启一些监控或者埋点脚本。**不管是手动加载还是基于路由模式加载，都会触发此回调。**
+
+- 示例
+
+  ```js
+  import { runAfterFirstMounted } from '@game/insight'
+
+  runAfterFirstMounted(() => {
+    // do your works
+  })
+  ```
+
+## `initGlobalState(state)`
+
+初始化全局状态，用于应用间通信
+
+- 参数
+
+  - state - `Record<string, any>` - 必选
+
+- 用法
+
+  定义全局状态，并返回通信方法，在主应用中使用，微应用通过 props 获取通信方法。
+
+  > 所有子应用和主应用公用一份状态，任意应用通过 `setGlobalState` 修改状态后，对于所有应用生效。并且必须在主应用中初始化状态后，子应用才可以通过 `setGlobalState` 修改状态，否则不生效
+
+- 返回
+
+  - MicroAppStateActions
+
+    - onGlobalStateChange: `(callback: OnGlobalStateChangeCallback, fireImmediately?: boolean) => void`， 在当前应用监听全局状态，有变更触发 callback，fireImmediately = true 立即触发 callback
+
+    - setGlobalState: `(state: Record<string, any>) => boolean`， 按一级属性设置全局状态，微应用中只能修改已存在的一级属性
+
+    - offGlobalStateChange: `() => boolean`，移除当前应用的状态监听，微应用 umount 时会默认调用
+
+- 示例
+
+  主应用：
+
+  ```js
+  import { initGlobalState } from '@game/insight'
+
+  // 初始化 state
+  const actions = initGlobalState({
+    user: 'morrain'
+  })
+
+  actions.onGlobalStateChange((value, prev) => {
+    // value: 变更后的状态; prev 变更前的状态
+    console.log('[onGlobalStateChange - master]:', value, prev)
+  })
+  actions.setGlobalState({
+    ignore: 'master',
+    user: {
+      name: 'master'
+    }
+  })
+  // actions.offGlobalStateChange() 微应用 umount 时会默认调用
+  ```
+
+  微应用：
+
+  ```js
+  // 从生命周期 mount 中获取通信方法，使用方式和 master 一致
+  export function mount(props) {
+    props.onGlobalStateChange((value, prev) => {
+      // value: 变更后的状态; prev 变更前的状态
+      console.log(value, prev)
+    })
+
+    props.setGlobalState({
+      user: {
+        name: props.name
+      }
+    })
+  }
+  ```
+
+## [getAppStatus](https://single-spa.js.org/docs/api/#getappstatus)
+
+- 参数
+
+  - appName - `string` - 必选
+
+- 用法
+
+  获取微应用当前的状态
+
+- 返回值 - `string` 微服务不存在时，返回 null。 否则为如下值的一个：
+
+  - NOT_LOADED
+  - LOADING_SOURCE_CODE
+  - NOT_BOOTSTRAPPED
+  - BOOTSTRAPPING
+  - NOT_MOUNTED
+  - MOUNTING
+  - MOUNTED
+  - UPDATING
+  - UNMOUNTING
+  - UNLOADING
+  - SKIP_BECAUSE_BROKEN
+  - LOAD_ERROR
+
+- 示例
+
+```js
+import { addErrorHandler, getAppStatus } from '@game/insight'
+
+addErrorHandler(err => {
+  console.log(err)
+  console.log(err.appOrParcelName)
+  console.log(getAppStatus(err.appOrParcelName))
+})
+```
+
+## [addErrorHandler](https://single-spa.js.org/docs/api/#adderrorhandler)
+
+- 参数
+
+  - handler - `(error: Error) => void` - 必选
+
+- 用法
+
+  添加应用异常处理函数，如果没有添加，异常会被抛到 window 上。
+
+- 示例
+
+```js
+import { addErrorHandler, getAppStatus } from '@game/insight'
+
+addErrorHandler(err => {
+  console.log(err)
+  console.log(err.appOrParcelName)
+  console.log(getAppStatus(err.appOrParcelName))
+})
+```
+
+## [removeErrorHandler](https://single-spa.js.org/docs/api/#removeerrorhandler)
+
+- 参数
+
+  - handler - `(error: Error) => void` - 必选。值为 addErrorHandler 添加的处理函数的引用
+
+- 用法
+
+  移除 addErrorHandler 添加的处理函数
+
+- 示例
+
+```js
+import { addErrorHandler, removeErrorHandler, getAppStatus } from '@game/insight'
+const handler = err => {
+  console.log(err)
+  console.log(err.appOrParcelName)
+  console.log(getAppStatus(err.appOrParcelName))
+}
+
+addErrorHandler(handler)
+
+removeErrorHandler(handler)
+```
 
 ## `addGlobalUncaughtErrorHandler(handler)`
 
@@ -427,7 +576,7 @@
 
 - 示例
 
-  ```ts
+  ```js
   import { addGlobalUncaughtErrorHandler } from '@game/insight'
 
   addGlobalUncaughtErrorHandler(event => console.log(event))
@@ -445,60 +594,8 @@
 
 - 示例
 
-  ```ts
+  ```js
   import { removeGlobalUncaughtErrorHandler } from '@game/insight'
 
   removeGlobalUncaughtErrorHandler(handler)
-  ```
-
-## `initGlobalState(state)`
-
-- 参数
-
-  - state - `Record<string, any>` - 必选
-
-- 用法
-
-  定义全局状态，并返回通信方法，建议在主应用使用，微应用通过 props 获取通信方法。
-
-- 返回
-
-  - MicroAppStateActions
-
-    - onGlobalStateChange: `(callback: OnGlobalStateChangeCallback, fireImmediately?: boolean) => void`， 在当前应用监听全局状态，有变更触发 callback，fireImmediately = true 立即触发 callback
-
-    - setGlobalState: `(state: Record<string, any>) => boolean`， 按一级属性设置全局状态，微应用中只能修改已存在的一级属性
-
-    - offGlobalStateChange: `() => boolean`，移除当前应用的状态监听，微应用 umount 时会默认调用
-
-- 示例
-
-  主应用：
-
-  ```ts
-  import { initGlobalState, MicroAppStateActions } from '@game/insight'
-
-  // 初始化 state
-  const actions: MicroAppStateActions = initGlobalState(state)
-
-  actions.onGlobalStateChange((state, prev) => {
-    // state: 变更后的状态; prev 变更前的状态
-    console.log(state, prev)
-  })
-  actions.setGlobalState(state)
-  actions.offGlobalStateChange()
-  ```
-
-  微应用：
-
-  ```ts
-  // 从生命周期 mount 中获取通信方法，使用方式和 master 一致
-  export function mount(props) {
-    props.onGlobalStateChange((state, prev) => {
-      // state: 变更后的状态; prev 变更前的状态
-      console.log(state, prev)
-    })
-
-    props.setGlobalState(state)
-  }
   ```

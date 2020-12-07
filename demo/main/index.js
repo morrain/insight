@@ -1,4 +1,4 @@
-import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState } from '../../es';
+import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, getAppStatus } from '../../es';
 import './index.less';
 
 import {load, update} from  './load' // 加载手动加载卡片的 demo
@@ -45,7 +45,9 @@ registerMicroApps(
   {
     beforeLoad: [
       app => {
-        console.log('[LifeCycle] before load %c%s', 'color: green;', app.name);
+        // 获取当前应用的状态
+        const status = getAppStatus(app.name)
+        console.log('[LifeCycle] before load %c%s status:%s', 'color: green;', app.name, status);
       },
     ],
     beforeMount: [
@@ -55,7 +57,9 @@ registerMicroApps(
     ],
     afterMount: [
       app => {
-        console.log('[LifeCycle] after mount %c%s', 'color: green;', app.name);
+        // 获取当前应用的状态
+        const status = getAppStatus(app.name)
+        console.log('[LifeCycle] after mount %c%s status:%s', 'color: green;', app.name, status);
         update(app.name) // 切换应用后，相应的更新卡片
       },
     ],
@@ -72,18 +76,23 @@ registerMicroApps(
   },
 );
 
-const { onGlobalStateChange, setGlobalState } = initGlobalState({
+
+ // 初始化 state
+ const actions = initGlobalState({
   user: 'morrain',
-});
+ })
 
-onGlobalStateChange((value, prev) => console.log('[onGlobalStateChange - master]:', value, prev));
-
-setGlobalState({
+ actions.onGlobalStateChange((value, prev) => {
+   // value: 变更后的状态; prev 变更前的状态
+   console.log('[onGlobalStateChange - master]:', value, prev)
+ })
+ actions.setGlobalState({
   ignore: 'master',
   user: {
     name: 'master',
   },
-});
+})
+// actions.offGlobalStateChange() 微应用 umount 时会默认调用
 
 /**
  * Step3 设置默认进入的子应用
