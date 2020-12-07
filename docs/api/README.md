@@ -568,25 +568,36 @@ removeErrorHandler(handler)
 
 - 参数
 
-  - handler - `(...args: any[]) => void` - 必选
+  - handler - `event => void` - 必选
 
 - 用法
 
-  添加全局的未捕获异常处理器。
+  添加全局的未捕获异常处理器
+
+  ```js
+  window.addEventListener('error', errorHandler)
+  window.addEventListener('unhandledrejection', errorHandler)
+  ```
+
+  实现方式如下所示，其实就是对 window 上添加错误事件监听，请参考[unhandledrejection](https://developer.mozilla.org/zh-CN/docs/Web/Events/unhandledrejection) 和 [error](https://developer.mozilla.org/zh-CN/docs/Web/Events/error)
 
 - 示例
 
   ```js
   import { addGlobalUncaughtErrorHandler } from '@game/insight'
 
-  addGlobalUncaughtErrorHandler(event => console.log(event))
+  addGlobalUncaughtErrorHandler(event => {
+    console.log('UncaughtError:', event)
+
+    event.preventDefault() // 阻止错误继续抛到 window 上
+  })
   ```
 
 ## `removeGlobalUncaughtErrorHandler(handler)`
 
 - 参数
 
-  - handler - `(...args: any[]) => void` - 必选
+  - handler - `event => void` - 必选
 
 - 用法
 

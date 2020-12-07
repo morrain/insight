@@ -1,4 +1,4 @@
-import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, getAppStatus } from '../../es';
+import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, getAppStatus, addErrorHandler, addGlobalUncaughtErrorHandler } from '../../es';
 import './index.less';
 
 import {load, update} from  './load' // 加载手动加载卡片的 demo
@@ -110,3 +110,18 @@ runAfterFirstMounted(() => {
   console.log('[MainApp] first app mounted');
   load()// 第一个应用加载完成后开始加载卡片
 });
+
+
+const hander = err => {
+  console.log('err:', err)
+  console.log(err.appOrParcelName)
+  console.log(getAppStatus(err.appOrParcelName))
+}
+
+addErrorHandler(hander)
+addGlobalUncaughtErrorHandler( event => {
+  console.log('UncaughtError:promise', event.promise)
+  console.log('UncaughtError:reason', event.reason)
+
+  event.preventDefault()
+})
