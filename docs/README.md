@@ -2,7 +2,7 @@
 home: true
 title: insight
 heroText: 见微知著，你需要洞见
-tagline: 可能是你见过最懂你的微前端解决方案
+tagline: VIVO自己的微前端解决方案
 actionText: 快速上手 →
 actionLink: /guide/
 features:
@@ -11,7 +11,7 @@ features:
   - title: 完备
     details: 几乎包含所有构建微前端系统时所需要的基本能力，如 样式隔离、js 沙箱、预加载等。
   - title: 好用
-    details: 从乾坤而来，经过线上项目考验，值得信赖。打包优化，增加调试功能，开发效率更高。
+    details: 从乾坤而来，经过线上项目考验。打包优化，增加调试功能，开发效率更高。补充更多api
 footer: MIT Licensed | Copyright © 2020-present Powered by game-fed
 ---
 
