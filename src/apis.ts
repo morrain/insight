@@ -1,8 +1,17 @@
-import { mountRootParcel, ParcelConfigObject, registerApplication, start as startSingleSpa } from 'single-spa'
+import {
+  mountRootParcel,
+  ParcelConfigObject,
+  registerApplication,
+  start as startSingleSpa,
+  getAppStatus
+} from 'single-spa'
+
 import { FrameworkConfiguration, FrameworkLifeCycles, LoadableApp, MicroApp, RegistrableApp } from './interfaces'
 import { loadApp, ParcelConfigObjectGetter } from './loader'
 import { doPrefetchStrategy } from './prefetch'
 import { Deferred, getContainer, getXPathForElement, toArray, noop } from './utils'
+
+export { getAppStatus }
 
 let microApps: RegistrableApp[] = []
 
