@@ -2,6 +2,31 @@
 
 所有项目的变更记录会记录在如下文件.
 
+## [1.2.0](https://gitlab.vmic.xyz///compare/v1.1.0...v1.2.0) (2020-12-07)
+
+
+### Features
+
+* 1. 完善insight api文档 2. 丰富手动加载微应用的demo,增加update机制 ([e2c14a7](https://gitlab.vmic.xyz///commit/e2c14a7614ae46215e72c0a21c02060e50faf824))
+* 优化文档的changelog文件 ([9ab9282](https://gitlab.vmic.xyz///commit/9ab9282c6b2fed66717b12ffd0356a11742f0c1f))
+* 修改sourcemap的模式,方便调试源码 ([aac83f8](https://gitlab.vmic.xyz///commit/aac83f811a6895cd1c7b9fcf8f0f3b2045f1553d))
+* 去掉集成的game-card demo ([2c8c84c](https://gitlab.vmic.xyz///commit/2c8c84c8dc92b3e9883e16e89af463caa6f4898a))
+* 增加getAppStatus api接口 ([dd9d86e](https://gitlab.vmic.xyz///commit/dd9d86e772af6dad649015803db9e314b86b3760))
+* 完善demo,完善api说明 ([0a21e13](https://gitlab.vmic.xyz///commit/0a21e134ef6e5f5e706091795d2a367c1450fb17))
+* 完成手动加载,并且更新的demo ([79c2c6e](https://gitlab.vmic.xyz///commit/79c2c6e95d79042eac6819ef32e8ffc9db09c3c0))
+* 打包工具修改完成,删除构建目录 es lib,并忽略 ([e4fdde5](https://gitlab.vmic.xyz///commit/e4fdde54cdaa7c2bbd6abb4b96c2b6d98f65abcf))
+* 调整游戏卡片demo的样式 ([d22b3e7](https://gitlab.vmic.xyz///commit/d22b3e71b8cc00a8960ceb84d6ad654527cafabd))
+* 集成 game-card demo. 使用git仓库引入 ([052c4d9](https://gitlab.vmic.xyz///commit/052c4d9355b67552120a3c8eef6eebc4b2c75b89))
+
+
+### Bug Fixes
+
+* 打包工具修改完成,删除构建目录 es lib,并忽略 ([1c4f328](https://gitlab.vmic.xyz///commit/1c4f3289f37e677229cc29650976bd8eeff628c0))
+* 提交demo的lock文件 ([d760eca](https://gitlab.vmic.xyz///commit/d760eca19c6727ab55f19b67198f00f60c9855a2))
+* 更新卡片demo ([44c8d7c](https://gitlab.vmic.xyz///commit/44c8d7c1ba1de777623efbd1b43e01acf005982f))
+* 构建前清空es目录,避免调试时的map文件被发布到npm ([87bf63a](https://gitlab.vmic.xyz///commit/87bf63a5586108edab2a0ffde5ed7bb72d14e718))
+* 避免不必要clone ([8981b18](https://gitlab.vmic.xyz///commit/8981b181e6c7fb9397dd028b07b3257c63b35c72))
+
 ## [1.1.0](https://gitlab.vmic.xyz///compare/v1.0.0...v1.1.0) (2020-12-01)
 
 
