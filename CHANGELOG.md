@@ -2,6 +2,18 @@
 
 所有项目的变更记录会记录在如下文件.
 
+## [1.3.0](https://gitlab.vmic.xyz///compare/v1.2.0...v1.3.0) (2020-12-07)
+
+
+### Features
+
+* 添加文档服务器 ([b118142](https://gitlab.vmic.xyz///commit/b1181422328dbcc7f0b1874febe1d54a7bd49241))
+
+
+### Bug Fixes
+
+* 修改文档服务的端口号 ([3fa0bba](https://gitlab.vmic.xyz///commit/3fa0bba3e64014c14b43cb00f43e9cf6953fd245))
+
 ## [1.2.0](https://gitlab.vmic.xyz///compare/v1.1.0...v1.2.0) (2020-12-07)
 
 
