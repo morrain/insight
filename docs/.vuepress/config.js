@@ -23,6 +23,10 @@ module.exports = {
       {
         text: '更新日志',
         link: '/changelog/'
+      },
+      {
+        text: 'NPM',
+        link: 'http://npm.vivo.com.cn/#/detail/@game/insight'
       }
     ],
     sidebar: ['/guide/', '/guide/getting-started', '/api/', '/faq/'],

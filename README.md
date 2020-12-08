@@ -14,7 +14,7 @@ inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qia
 npm i @game/insight -S
 ```
 
-使用文档详见：docs 目录
+使用文档详见：http://10.101.93.219:4000/
 
 ## 调试
 
@@ -144,9 +144,10 @@ insight
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
     "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
     "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build docs",
+    "docs:server": "pm2 start docs/.vuepress/server.js --name insight-doc-server",
+    "webhook": "pm2 start webhook.js --name insight-webhook",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
     "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "cz"
   }
 ```
@@ -179,14 +180,22 @@ insight
 
    生成文档。把根目录下的 CHANGELOG.md 文件拷贝到文档目录
 
-8. release:pre
+8. docs:server
 
-   预发布，会生成发布的版本，然后在控制台显示版本变动信息。实际不会执行发布操作
+   文档服务
 
-9. release
+9. webhook
 
-   发布，会生成发布的版本，同时更新版本信息，最后执行 npm publish 发布到 npm. **请务必使用预发布确认版本信息后才发布**
+   启动服务，监听 tag push 事件，重新生成文档
 
-10. commit
+10. release:pre
+
+    预发布，会生成发布的版本，然后在控制台显示版本变动信息。实际不会执行发布操作
+
+11. release
+
+    发布，会生成发布的版本，同时更新版本信息，最后执行 npm publish 发布到 npm. **请务必使用预发布确认版本信息后才发布**
+
+12. commit
 
     提交代码
