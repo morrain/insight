@@ -4,7 +4,7 @@ title: insight
 heroText: 见微知著，你需要洞见
 tagline: VIVO自己的微前端解决方案
 actionText: 快速上手 →
-actionLink: /guide/
+actionLink: /guide/getting-started
 features:
   - title: 简单
     details: 任意 js 框架均可使用。接入微应用像接 iframe 一样简单，却能获取获得 SPA 的应用体验。
@@ -44,4 +44,4 @@ loadMicroApp({
 })
 ```
 
-参考：[快速上手](/guide/)。
+参考：[快速上手](/guide/getting-started)。
