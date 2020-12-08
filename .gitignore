@@ -5,3 +5,4 @@ dist
 es
 lib
 /pnpm-lock.yaml
+docs/CHANGELOG.md
