@@ -16,5 +16,15 @@ module.exports = {
     sidebarDepth: 2,
     repoLabel: 'GitLab',
     repo: 'https://gitlab.vmic.xyz/game-common/insight'
-  }
+  },
+  plugins: [
+    [
+      'vuepress-plugin-container',
+      {
+        type: 'center',
+        before: info => `<div align=center>`,
+        after: '</div>'
+      }
+    ]
+  ]
 }
