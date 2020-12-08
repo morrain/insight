@@ -1,10 +1,25 @@
 module.exports = {
   title: 'InSight(洞见)',
   description: 'vivo游戏事业部前端技术组微服务解决方案',
+  head: [
+    [
+      'link',
+      {
+        rel: 'shortcut icon',
+        href: '/favicon.ico'
+      }
+    ]
+  ],
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide/' },
+      {
+        text: 'Home',
+        link: '/'
+      },
+      {
+        text: 'Guide',
+        link: '/guide/'
+      },
       {
         text: '更新日志',
         link: '/changelog/'
