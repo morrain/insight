@@ -1,7 +1,9 @@
 {
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll.eslint": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.disableLanguages": [
@@ -15,9 +17,6 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "eslint.nodePath": "",
   "eslint.options": {
-    "resolvePluginsRelativeTo": "",
     "configFile": ""
-  },
-  "files.eol": "\n",
-  "files.insertFinalNewline": true
+  }
 }
