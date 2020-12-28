@@ -1,7 +1,7 @@
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState, getAppStatus, addErrorHandler, addGlobalUncaughtErrorHandler } from '../../es';
 import './index.less';
 
-import {load, update} from  './load' // 加载手动加载卡片的 demo
+import {loadCard1, loadCard2, update, unloadCard1, unloadCard2} from  './load' // 加载手动加载卡片的 demo
 /**
  * 主应用 **可以使用任意技术栈**
  */
@@ -60,7 +60,17 @@ registerMicroApps(
         // 获取当前应用的状态
         const status = getAppStatus(app.name)
         console.log('[LifeCycle] after mount %c%s status:%s', 'color: green;', app.name, status);
-        update(app.name) // 切换应用后，相应的更新卡片
+        if(app.name === 'vue'){
+          loadCard1()
+        }
+        if(app.name === 'vue3'){
+          loadCard2()
+          update()
+        }
+        if(app.name === 'purehtml'){
+          unloadCard1()
+          unloadCard2()
+        }
       },
     ],
     beforeUnmount: [
@@ -80,6 +90,7 @@ registerMicroApps(
  // 初始化 state
  const actions = initGlobalState({
   user: 'morrain',
+  showCard: false
  })
 
  actions.onGlobalStateChange((value, prev) => {
@@ -108,7 +119,6 @@ start({
 
 runAfterFirstMounted(() => {
   console.log('[MainApp] first app mounted');
-  load()// 第一个应用加载完成后开始加载卡片
 });
 
 
