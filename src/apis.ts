@@ -60,6 +60,10 @@ export function loadMicroApp<T extends object = {}>(
   lifeCycles?: FrameworkLifeCycles<T>
 ): MicroApp {
   const { props, name } = app
+  const defaultConf: FrameworkConfiguration = {
+    singular: false,
+    sandbox: true
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
   const getContainerXpath = (container: string | HTMLElement): string | void => {
@@ -86,7 +90,7 @@ export function loadMicroApp<T extends object = {}>(
    * the micro app would not load and evaluate its lifecycles again
    */
   const memorizedLoadingFn = async (): Promise<ParcelConfigObject> => {
-    const { $$cacheLifecycleByAppName } = configuration ?? frameworkConfiguration
+    const { $$cacheLifecycleByAppName } = configuration ?? defaultConf
     const container = 'container' in app ? app.container : undefined
 
     if (container) {
@@ -103,7 +107,7 @@ export function loadMicroApp<T extends object = {}>(
       }
     }
 
-    const parcelConfigObjectGetterPromise = loadApp(app, configuration ?? frameworkConfiguration, lifeCycles)
+    const parcelConfigObjectGetterPromise = loadApp(app, configuration ?? defaultConf, lifeCycles)
 
     if (container) {
       if ($$cacheLifecycleByAppName) {
