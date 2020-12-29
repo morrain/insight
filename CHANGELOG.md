@@ -2,6 +2,22 @@
 
 所有项目的变更记录会记录在如下文件.
 
+## [1.4.0](https://gitlab.vmic.xyz///compare/v1.3.0...v1.4.0) (2020-12-29)
+
+
+### Features
+
+* 增加 setGlobalFunction ,解决在沙箱模式下,无法在全局window上添加函数的问题 ([e190f98](https://gitlab.vmic.xyz///commit/e190f98076086c0c13a447f5c281316708e2844e))
+* 增加卡片的demo为多实例,并且开启沙箱 ([97b505d](https://gitlab.vmic.xyz///commit/97b505d6d525c144710f33ca4852740c34d96cd7))
+
+
+### Bug Fixes
+
+* 修复手动加载模式下,参数与路由模式混在一起的问题 ([32e4276](https://gitlab.vmic.xyz///commit/32e4276356dc75efab97f58af2be71bb62194b91))
+* 修改settings.json配置,解决保存时卡死,不能自动修复代码格式的问题 ([4f7d0ed](https://gitlab.vmic.xyz///commit/4f7d0ed70404b0d2d569078e7e1b4521641c254a))
+* 删除并忽略掉docs下的changelog文件,因为它是构建文档时从根目录拷贝过来的,不纳入git管理 ([04ffe02](https://gitlab.vmic.xyz///commit/04ffe028c6ae9f177d3615fa7246b43be277c9d3))
+* 增加对 window.fetch的适配,解决安卓5环境下window.fetch没有的问题 ([71cef40](https://gitlab.vmic.xyz///commit/71cef40c763737b440c951b7effa9e61a8350f1a))
+
 ## [1.3.0](https://gitlab.vmic.xyz///compare/v1.2.0...v1.3.0) (2020-12-07)
 
 
