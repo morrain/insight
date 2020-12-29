@@ -1,6 +1,8 @@
 import processTpl, { genLinkReplaceSymbol, genScriptReplaceSymbol } from './process-tpl'
 import { defaultGetPublicPath, getGlobalProp, getInlineCode, noteGlobalProps, requestIdleCallback } from './utils'
 
+import 'whatwg-fetch'
+
 const styleCache = {}
 const scriptCache = {}
 const embedHTMLCache = {}
