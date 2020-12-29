@@ -12,7 +12,7 @@ inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qia
 
 > Techniques, strategies and recipes for building a **modern web app** with **multiple teams** that can **ship features independently**. -- [micro-frontends](https://micro-frontends.org/)
 
-微前端的概念最早出现于 2016 年，是微服务概念向前端领域延伸。出处于[thoughtworks](https://www.thoughtworks.com/radar/techniques/micro-frontends)
+微前端的概念最早出现于 2016 年，是微服务概念向前端领域延伸，出处于[thoughtworks](https://www.thoughtworks.com/radar/techniques/micro-frontends)
 
 微前端架构旨在解决单体应用在一个相对长的时间跨度下，由于参与的人员、团队的增多、变迁，从一个普通应用演变成一个巨石应用([Frontend Monolith](https://www.youtube.com/watch?v=pU1gXA0rfwc))后，随之而来的应用不可维护的问题。这类问题在企业级 Web 应用中尤其常见。
 
@@ -62,7 +62,6 @@ inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qia
 更多关于微前端的相关介绍，推荐大家可以去看这几篇文章：
 
 - [Micro Frontends](https://micro-frontends.org/)
-- [Micro Frontends from martinfowler.com](https://martinfowler.com/articles/micro-frontends.html)
 - [可能是你见过最完善的微前端解决方案](https://zhuanlan.zhihu.com/p/78362028)
 - [微前端的核心价值](https://zhuanlan.zhihu.com/p/95085796)
 
@@ -85,5 +84,5 @@ iframe 最大的特性就是提供了浏览器原生的硬隔离方案，不论�
 - 📱 **技术栈无关**，任意技术栈的应用均可 使用/接入，不论是 React/Vue/Angular/JQuery 还是其他等框架。
 - 💪 **HTML Entry 接入方式**，让你接入微应用像使用 iframe 一样简单。
 - 🛡​ **样式隔离**，确保微应用之间样式互相不干扰。
-- 🧳 **JS 沙箱**，确保微应用之间 全局变量/事件 不冲突。
+- 🧳 **JS 沙箱**，确保微应用之间 全局变量/事件 不冲突。通过 `setGlobalFunction` 可以在沙箱模式下方便的挂载全局函数到宿主的 window 环境
 - ⚡️ **资源预加载**，在浏览器空闲时间预加载未打开的微应用资源，加速微应用打开速度。

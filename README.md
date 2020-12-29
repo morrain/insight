@@ -129,8 +129,8 @@ insight
 
 ```json
  "scripts": {
-    "demo:install": "npm-run-all --serial build:esm:dev install:*",
-    "demo:start": "npm-run-all --parallel start:*",
+    "demo:install": "npm-run-all --serial install:*",
+    "demo:start": "npm-run-all --parallel build:esm:dev start:*",
     "install:main": "cd demo/main && npm i",
     "start:main": "cd demo/main && npm run start",
     "install:vue": "cd demo/vue && npm i",
@@ -154,11 +154,11 @@ insight
 
 1. demo:install
 
-   构建用于开发调试 esm 版本，然后安装 demo 中微服务的依赖
+   安装 demo 中微服务的依赖
 
 2. demo:start
 
-   逐一启动 demo，会自动打开浏览器显示 demo 内容，方便调试
+   构建用于开发调试 esm 版本，然后逐一启动 demo，会自动打开浏览器显示 demo 内容，方便调试
 
 3. build:esm
 

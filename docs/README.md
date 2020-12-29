@@ -11,7 +11,7 @@ features:
   - title: 完备
     details: 几乎包含所有构建微前端系统时所需要的基本能力，如 样式隔离、js 沙箱、预加载等。
   - title: 好用
-    details: 从乾坤而来，经过线上项目考验。打包优化，增加调试功能，开发效率更高。补充更多api
+    details: 打包优化，增加调试功能，开发效率更高。增加`setGlobalFunction`等更多api，支持在沙箱模式下往全局window上挂载函数。
 footer: MIT Licensed | Copyright © 2020-present Powered by GAME-FED
 ---
 
@@ -33,15 +33,47 @@ $ npm i @game/insight -S
 import { loadMicroApp } from '@game/insight'
 
 // 加载微应用
-loadMicroApp({
-  name: 'gamecard',
-  entry: '//localhost:7104/game-card/',
-  container: '#gamecard-container',
-  props: {
-    moduleId: 184,
-    origin: 'demo'
+const cardInstance = loadMicroApp(
+  {
+    name: 'gamecard',
+    entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
+    container: '#gamecard-container',
+    props: {
+      reportData: {
+        package_name: 'com.tencent.tmgp.sgame',
+        dl_page: 'default'
+      }
+    }
+  },
+  null,
+  {
+    beforeLoad: [
+      app => {
+        console.log('[loadMicroApp][LifeCycle] before load %c%s', 'color: green;', app.name)
+      }
+    ],
+    beforeMount: [
+      app => {
+        console.log('[loadMicroApp][LifeCycle] before mount %c%s', 'color: green;', app.name)
+      }
+    ],
+    afterMount: [
+      app => {
+        console.log('[loadMicroApp][LifeCycle] after mount %c%s', 'color: green;', app.name)
+      }
+    ],
+    beforeUnmount: [
+      app => {
+        console.log('[loadMicroApp][LifeCycle] before unmount %c%s', 'color: green;', app.name)
+      }
+    ],
+    afterUnmount: [
+      app => {
+        console.log('[loadMicroApp][LifeCycle] after unmount %c%s', 'color: green;', app.name)
+      }
+    ]
   }
-})
+)
 ```
 
 参考：[快速上手](/guide/getting-started)。

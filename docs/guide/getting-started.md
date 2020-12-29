@@ -11,46 +11,76 @@
 
 ![](../assets/framework.png)
 
-**由于子应用的资源，包括 `index.html` 文件是通过 `window.fetch` 来获取，然后插入到当前主应用的文档中的，所以对于子应用中的接口、资源请求不能使用相对路径（除非子应用和主应用域名一致）。因为如果使用相对路径在独立访问时是使用子应用的域名，而集成到主应用后是使用主应用的域名。**
+**由于子应用的资源(包括 `index.html` 文件)是通过 `window.fetch` 来获取，然后插入到当前主应用的文档中的，所以对于子应用中的接口、资源请求不能使用相对路径（除非子应用和主应用域名一致）。因为如果使用相对路径在独立访问时是使用子应用的域名，而集成到主应用后是使用主应用的域名。**
 
 **也就是说当子应用集成到主应用后，是没有子应用域名的概念的，这一点在接入或者开发子应用时尤其注意。**
 
 ## 主应用
 
-### 1. 安装 insight
+### 安装 insight
 
 ```bash
 npm i @game/insight -S
 ```
 
-### 2. 在主应用中注册子应用
+### 在主应用中注册子应用
 
 ```js
 import { registerMicroApps, start } from '@game/insight'
 
-registerMicroApps([
+registerMicroApps(
+  [
+    {
+      name: 'vue',
+      entry: '//localhost:7101',
+      container: '#subapp-viewport',
+      activeRule: '/vue'
+    },
+    {
+      name: 'purehtml',
+      entry: '//localhost:7102',
+      container: '#subapp-viewport',
+      activeRule: '/purehtml'
+    },
+    {
+      name: 'vue3',
+      entry: '//localhost:7103',
+      container: '#subapp-viewport',
+      activeRule: '/vue3'
+    }
+  ],
   {
-    name: 'vue',
-    entry: '//localhost:7101',
-    container: '#subapp-viewport',
-    loader,
-    activeRule: '/vue'
-  },
-  {
-    name: 'purehtml',
-    entry: '//localhost:7102',
-    container: '#subapp-viewport',
-    loader,
-    activeRule: '/purehtml'
-  },
-  {
-    name: 'vue3',
-    entry: '//localhost:7103',
-    container: '#subapp-viewport',
-    loader,
-    activeRule: '/vue3'
+    beforeLoad: [
+      app => {
+        // 获取当前应用的状态
+        const status = getAppStatus(app.name)
+        console.log('[LifeCycle] before load %c%s status:%s', 'color: green;', app.name, status)
+      }
+    ],
+    beforeMount: [
+      app => {
+        console.log('[LifeCycle] before mount %c%s', 'color: green;', app.name)
+      }
+    ],
+    afterMount: [
+      app => {
+        // 获取当前应用的状态
+        const status = getAppStatus(app.name)
+        console.log('[LifeCycle] after mount %c%s status:%s', 'color: green;', app.name, status)
+      }
+    ],
+    beforeUnmount: [
+      app => {
+        console.log('[LifeCycle] before unmount %c%s', 'color: green;', app.name)
+      }
+    ],
+    afterUnmount: [
+      app => {
+        console.log('[LifeCycle] after unmount %c%s', 'color: green;', app.name)
+      }
+    ]
   }
-])
+)
 
 start()
 ```
@@ -65,11 +95,13 @@ import { loadMicroApp } from '@game/insight'
 // 加载子应用
 loadMicroApp({
   name: 'gamecard',
-  entry: '//localhost:7104/game-card/',
+  entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
   container: '#gamecard-container',
   props: {
-    moduleId: 184,
-    origin: 'demo'
+    reportData: {
+      package_name: 'com.tencent.tmgp.sgame',
+      dl_page: 'default'
+    }
   }
 })
 ```
@@ -78,7 +110,7 @@ loadMicroApp({
 
 子应用不需要额外安装任何其他依赖即可接入 insight 主应用，对于使用 webpack 等打包工具的情况只需要在子应用入口导出相应的生命周期钩子即可。
 
-### 1. 导出相应的生命周期钩子
+### 导出相应的生命周期钩子
 
 子应用需要在自己的入口 js (通常就是你配置的 webpack 的 entry js) 导出 `bootstrap`、`mount`、`unmount` 三个生命周期钩子，以供主应用在适当的时机调用。
 
@@ -87,7 +119,13 @@ loadMicroApp({
  * bootstrap 只会在子应用初始化的时候调用一次，下次子应用重新进入时会直接调用 mount 钩子，不会再重复触发 bootstrap。
  * 通常我们可以在这里做一些全局变量的初始化，比如不会在 unmount 阶段被销毁的应用级别的缓存等。
  */
-export async function bootstrap() {
+export async function bootstrap(props) {
+  const {
+    name, // The name of the application
+    singleSpa, // The singleSpa instance
+    mountParcel, // Function for manually mounting
+    customProps // Additional custom information
+  } = props // Props are given to every lifecycle  请参考 https://single-spa.js.org/docs/building-applications#lifecyle-props
   console.log('micro app bootstraped')
 }
 
@@ -95,6 +133,7 @@ export async function bootstrap() {
  * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
  */
 export async function mount(props) {
+  const { container, setGlobalState, onGlobalStateChange, setGlobalFunction } = props // 请参考 api 章节中的介绍
   ReactDOM.render(<App />, props.container ? props.container.querySelector('#root') : document.getElementById('root'))
 }
 
@@ -102,9 +141,9 @@ export async function mount(props) {
  * 应用每次 切出/卸载 会调用的方法，通常在这里我们会卸载子应用的应用实例
  */
 export async function unmount(props) {
-  ReactDOM.unmountComponentAtNode(
-    props.container ? props.container.querySelector('#root') : document.getElementById('root')
-  )
+  const { container } = props
+
+  ReactDOM.unmountComponentAtNode(container ? container.querySelector('#root') : document.getElementById('root'))
 }
 
 /**
@@ -117,7 +156,7 @@ export async function update(props) {
 
 insight 基于 single-spa，所以你可以在[这里](https://single-spa.js.org/docs/building-applications.html#registered-application-lifecycle)找到更多关于子应用生命周期相关的文档说明。
 
-### 2. 配置子应用的打包工具
+### 配置子应用的打包工具
 
 在子应用中导出相应的生命周期钩子还不够，为了让主应用能正确识别子应用导出的生命周期钩子，子应用的打包工具需要增加如下配置：
 
@@ -208,6 +247,46 @@ const render = $ => {
 ```
 
 你可以直接参照 examples 中 purehtml 部分的代码。
+
+### 子应用挂载全局函数
+
+为了隔离子应用和主应用，以及子应用之间互相产生的影响，微前端框架提供了沙箱的支持(请参考 api 章节中，对沙箱的介绍)。这导致了在子应用中往 `window` 添加的函数，实际上只添加到了子应用沙箱上，主应用中并不能调用。而互联网游戏业务中，存在大量与游戏中心等原生应用交互的实现，目前的技术方案就是 js 层向 全局 `window` 上挂载函数，然后客户端应用通过调用全局 `window` 上挂载的函数来实现客户端应用与 js 的通信。
+
+所以如果子应用中存在与客户端通信的需求，就要考虑如何添加函数到全局 `window`上的问题。
+
+insight 在 `mount` 生命周期中，注入了 `setGlobalFunction` 方法。当多个子应用挂载相同的 `funcName` 时，insight 负责遍历所有子应用并逐一调用。如果子应用挂载的 `funcName` 已经存在，insight 会负责调用它，并在子应用 `unmount` 恢复它。
+
+- 参数
+
+  - funcName - `string` - 必选 要挂载的函数名
+  - handler - `function` - 必选 对应的处理函数
+
+> funcName 支持用.分隔的字符串，如'system.onmessage'，此时，handler 会挂载到 `window.system.onmessage` 上。**注意，此种用法你需要保证 system 等中间层级是存在的，否则会报错，insight 不会默认添加中间层级的内容，因为不好回收**
+
+- 用法
+
+  设置挂载到全局 `window` 上的回调函数
+
+- 示例
+
+  ```js
+  /**
+   * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
+   */
+  export async function mount(props) {
+    const { container, setGlobalState, onGlobalStateChange, setGlobalFunction } = props // 请参考 api 章节中的介绍
+
+    setGlobalFunction('abc', (...args) => {
+      console.log(`abc:${props.name}`, ...args)
+    })
+
+    setGlobalFunction('system.onmessage', (...args) => {
+      console.log(`system.onmessage:${props.name}`, ...args)
+    })
+
+    ReactDOM.render(<App />, props.container ? props.container.querySelector('#root') : document.getElementById('root'))
+  }
+  ```
 
 ### 子应用接入注意事项
 
@@ -306,7 +385,7 @@ export const getGameInfo = async params => {
 
 由于子应用是通过 window.fetch 获取到以 DOM 元素形式插入到主应用中，所以在子应用中如果直接使用 document 操作 DOM，实际上是更新主应用的 DOM。举一个比较实际的例子，对于移动端适配，目前常用的方案是 rem + flexible 的方案，此方案的原理就是根据屏幕宽度和设备像素比设置根元素的 `font-size`，然后再利用构建工具把源码中的 `px` 转化 `rem` 达到在不同设备上显示一致目的。
 
-如果在子应用中运用这个方案，那么子应用会把 `font-size` 设置到主应用的根节点，不光会影响到全局，还让主应用和子应用产生了耦合。所以子应用接入时，避免使用此方案，可以替换成 `viewport` 方案，直接根据设备宽度计算，不需要设置 `font-size` 值。
+如果在子应用中运用这个方案，那么子应用会把 `font-size` 设置到主应用的根节点，不光会影响到全局，还让主应用和子应用产生了耦合。所以子应用接入时，避免使用此方案，可以替换成 [`viewport` 方案](https://github.com/evrone/postcss-px-to-viewport/blob/master/README_CN.md)，直接根据设备宽度计算，不需要设置 `font-size` 值。
 
 #### 4. 子应用独立运行
 
@@ -319,10 +398,9 @@ export const getGameInfo = async params => {
 ```js
 if (!window.__POWERED_BY_INSIGHT__) {
   // 非使用 insight 加载时，参数由查询参数提供
-  const moduleId = url.getQueryValue('moduleId')
-  const origin = url.getQueryValue('origin')
-  store.commit(MUT_SET_MODULE_ID, moduleId)
-  store.commit(MUT_SET_ORIGIN, origin)
+  const queryObject = url.getQueryObjectByUrl()
+  store.commit(MUT_SET_PACKAGE_NAME, queryObject.package_name)
+  store.commit(MUT_SET_REPORT_DATA, queryObject)
   render()
 }
 
@@ -333,8 +411,8 @@ export async function bootstrap() {
 export async function mount(props) {
   console.log('[game-card] props from origin', props)
   // 微服务模式下，参数由宿主提供
-  store.commit(MUT_SET_MODULE_ID, props.moduleId)
-  store.commit(MUT_SET_ORIGIN, props.origin)
+  store.commit(MUT_SET_PACKAGE_NAME, props.reportData.package_name)
+  store.commit(MUT_SET_REPORT_DATA, props.reportData)
   render(props.container)
 }
 ```

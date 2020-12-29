@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/promise-function-async */
+/* eslint-disable @typescript-eslint/promise-function-async  */
 import { importEntry } from './import-html-entry'
 import { mergeWith, concat } from 'lodash'
 import { LifeCycles, ParcelConfigObject } from 'single-spa'
 import getAddOns from './addons'
 import { getMicroAppStateActions } from './globalState'
+import { getGlobalFuncsActions } from './globalFuncs'
 import { FrameworkConfiguration, FrameworkLifeCycles, HTMLContentRender, LifeCycleFn, LoadableApp } from './interfaces'
 import { createSandbox, css } from './sandbox'
 import {
@@ -301,6 +302,7 @@ export async function loadApp<T extends object>(
   const { bootstrap, mount, unmount, update } = getLifecyclesFromExports(scriptExports, appName, global)
 
   const { onGlobalStateChange, setGlobalState, offGlobalStateChange } = getMicroAppStateActions(appInstanceId)
+  const { setGlobalFunction, offGlobalFunctions } = getGlobalFuncsActions(appInstanceId, window)
 
   // FIXME temporary way
   const syncAppWrapperElement2Sandbox = (element: HTMLElement | null) => (initialAppWrapperElement = element)
@@ -352,7 +354,8 @@ export async function loadApp<T extends object>(
         mountSandbox,
         // exec the chain after rendering to keep the behavior with beforeLoad
         async () => await execHooksChain(toArray(beforeMount), app, global),
-        async props => mount({ ...props, container: appWrapperGetter(), setGlobalState, onGlobalStateChange }),
+        async props =>
+          mount({ ...props, container: appWrapperGetter(), setGlobalState, onGlobalStateChange, setGlobalFunction }),
         // finish loading after app mounted
         async () => render({ element: appWrapperElement, loading: false, container: remountContainer }, 'mounted'),
         async () => await execHooksChain(toArray(afterMount), app, global),
@@ -377,6 +380,7 @@ export async function loadApp<T extends object>(
         async () => {
           render({ element: null, loading: false, container: remountContainer }, 'unmounted')
           offGlobalStateChange()
+          offGlobalFunctions()
           // for gc
           appWrapperElement = null
           syncAppWrapperElement2Sandbox(appWrapperElement)

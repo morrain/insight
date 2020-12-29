@@ -123,3 +123,8 @@ export interface MicroAppStateActions {
   setGlobalState: (state: Record<string, any>) => boolean
   offGlobalStateChange: () => boolean
 }
+
+export interface GlobalFuncsActions {
+  setGlobalFunction: (key: string, func: Function) => void
+  offGlobalFunctions: () => void
+}
