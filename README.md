@@ -32,7 +32,7 @@ npm i
 npm run demo:install     // npm-run-all --serial build:esm:dev install:*
 ```
 
-该命里会先构建 insight 开发版本到本地的 es（es module）目录，会生成 sourcemap，调试 demo 更加方便。然后逐一安装 demo 中的依赖
+该命令会先构建 insight 开发版本到本地的 es（es module）目录，会生成 sourcemap，调试 demo 更加方便。然后逐一安装 demo 中的依赖
 
 3. 启动 demo
 
