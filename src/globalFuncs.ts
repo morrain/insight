@@ -34,9 +34,9 @@ export function getGlobalFuncsActions(id: string, win: any): GlobalFuncsActions 
       winSetter(win, funcName, (...args: any[]) => {
         // 全局函数被调用后，先调用之前的函数，再调用微服务注册上来的函数
         if (isFunction(winFuncs[funcName])) winFuncs[funcName](...args)
-        Object.values(appsFuncs).forEach(m => {
+        Object.keys(appsFuncs).forEach(m => {
           // 遍历注册的所有函数
-          for (const [fN, f] of Object.entries(m)) {
+          for (const [fN, f] of Object.entries(appsFuncs[m])) {
             if (fN === funcName) {
               if (isFunction(f)) f(...args)
               return
@@ -66,8 +66,8 @@ export function getGlobalFuncsActions(id: string, win: any): GlobalFuncsActions 
  * @param funcName 要查询引用计数的函数名
  */
 function countReference(funcName: string): number {
-  return Object.values(appsFuncs).reduce((acc, current) => {
-    return acc + (Object.keys(current).includes(funcName) ? 1 : 0)
+  return Object.keys(appsFuncs).reduce((acc, current) => {
+    return acc + (Object.keys(appsFuncs[current]).includes(funcName) ? 1 : 0)
   }, 0)
 }
 
