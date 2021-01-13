@@ -2,6 +2,13 @@
 
 所有项目的变更记录会记录在如下文件.
 
+### [1.4.1](https://gitlab.vmic.xyz///compare/v1.4.0...v1.4.1) (2021-01-13)
+
+
+### Bug Fixes
+
+* 修复android 5下,object.values的兼容性问题 ([de73b58](https://gitlab.vmic.xyz///commit/de73b58abbc1c698d9b5f55e5c9f8d6de3d6485c))
+
 ## [1.4.0](https://gitlab.vmic.xyz///compare/v1.3.0...v1.4.0) (2020-12-29)
 
 
