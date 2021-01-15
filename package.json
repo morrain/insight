@@ -31,10 +31,8 @@
     "build:esm": "rm -rf es && cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js && tsc",
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
-    "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
-    "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build docs",
-    "docs:server": "pm2 start docs/.vuepress/server.js --name insight-doc-server",
-    "webhook": "pm2 start webhook.js --name insight-webhook",
+    "docs:dev": "npm run docs:pre-build && vuepress dev docs",
+    "docs:pre-build": "cp CHANGELOG.md docs/CHANGELOG.md",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
     "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
     "commit": "cz"
@@ -70,15 +68,12 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.1.0",
     "husky": "^4.3.6",
-    "koa": "^2.13.0",
-    "koa-static": "^5.0.0",
     "lint-staged": "^10.5.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "standard-version": "^9.0.0",
     "typescript": "^4.1.3",
-    "vuepress": "^1.5.4",
-    "webhook": "^1.0.0"
+    "vuepress": "^1.5.4"
   },
   "dependencies": {
     "@babel/runtime": "^7.10.5",
