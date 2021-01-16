@@ -4,7 +4,7 @@ title: insight
 heroText: 见微知著，你需要洞见
 tagline: VIVO自己的微前端解决方案
 actionText: 快速上手 →
-actionLink: /guide/getting-started
+actionLink: ./guide/getting-started
 features:
   - title: 简单
     details: 子应用可使用任意 js 框架。接入子应用像接 iframe 一样简单，却能获取产品完整的一致性体验。
@@ -76,4 +76,4 @@ const cardInstance = loadMicroApp(
 )
 ```
 
-参考：[快速上手](/guide/getting-started)。
+参考：[快速上手](./guide/getting-started)。
