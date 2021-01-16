@@ -76,4 +76,4 @@ const cardInstance = loadMicroApp(
 )
 ```
 
-参考：[快速上手](./guide/getting-started)。
+参考：[快速上手](./guide/getting-started.md)。

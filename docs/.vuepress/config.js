@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         text: '更新日志',
-        link: '/changelog/'
+        link: '/CHANGELOG'
       },
       {
         text: 'NPM',
