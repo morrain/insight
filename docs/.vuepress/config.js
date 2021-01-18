@@ -1,11 +1,16 @@
-const common = require('@game/docs-config')
-const { themeConfig } = common // 主题配置单独处理
-
 module.exports = {
   base: '/insight/',
   title: 'InSight(洞见)',
   description: 'vivo游戏事业部前端技术组微服务解决方案',
-  ...common,
+  head: [
+    [
+      'link',
+      {
+        rel: 'shortcut icon',
+        href: '/favicon.ico'
+      }
+    ]
+  ],
   themeConfig: {
     nav: [
       {
@@ -28,6 +33,22 @@ module.exports = {
     sidebar: ['/guide/', '/guide/getting-started', '/api/', '/faq/'],
     repoLabel: 'GitLab',
     repo: 'https://gitlab.vmic.xyz/game-common/insight',
-    ...themeConfig
-  }
+    lastUpdated: '最后更新',
+    smoothScroll: true,
+    sidebarDepth: 2
+  },
+  markdown: {
+    lineNumbers: true
+  },
+  plugins: [
+    '@vuepress/back-to-top',
+    [
+      'vuepress-plugin-container',
+      {
+        type: 'center',
+        before: info => `<div align=center>`,
+        after: '</div>'
+      }
+    ]
+  ]
 }
