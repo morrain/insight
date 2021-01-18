@@ -3,8 +3,8 @@ const WebHook = require('webhook').default
 
 new WebHook({
   onPushEvent() {
-    spawnSync('git', ['checkout', 'master']) // 检出当前仓库
-    spawnSync('git', ['pull']) // 拉取最新代码
-    spawnSync('npm', ['run', 'build']) // 顺序构建各个文档
+    spawnSync('git', ['checkout', 'master'])
+    spawnSync('git', ['pull'])
+    spawnSync('npm', ['run', 'docs:build'])
   }
 }).listen(3001)
