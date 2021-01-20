@@ -31,7 +31,7 @@
     "build:esm": "rm -rf es && cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js && tsc",
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
-    "docs:dev": "npm run docs:pre-build && vuepress dev docs",
+    "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
     "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build ./docs --dest ../../fed/insight",
     "docs:webhook": "pm2 start webhook.js --name docs-insight-webhook",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
