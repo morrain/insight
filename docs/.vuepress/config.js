@@ -15,16 +15,12 @@ module.exports = {
     logo: '/logo.png',
     nav: [
       {
-        text: 'Home',
+        text: '首页',
         link: '/'
       },
       {
-        text: 'Guide',
+        text: '使用指南',
         link: '/guide/'
-      },
-      {
-        text: '更新日志',
-        link: '/CHANGELOG'
       },
       {
         text: '实践案例',
@@ -34,6 +30,10 @@ module.exports = {
             link: '/case/game-card/'
           }
         ]
+      },
+      {
+        text: '更新日志',
+        link: '/CHANGELOG'
       },
       {
         text: 'NPM',

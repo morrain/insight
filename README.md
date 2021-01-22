@@ -6,7 +6,7 @@
 
 inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qiankun](https://qiankun.umijs.org/zh) 的微前端解决方案，增加了微应用管理和数据统计的功能，优化了包加载机制，依赖的包体大小更小。改变了打包方式，增加 sourcemap，方便开发调试。也修复了 qiankun 中部分 api 文档不准的问题，手动加载的微应用增加生命周期钩子。增加`setGlobalFunction`等更多 api，支持在沙箱模式下往全局 window 上挂载函数，做**符合 vivo 应用场景的微前端解决方案**。
 
-更多需求后续逐步根据需要增加。
+同时还做了安卓 5 下的适配，更多需求后续逐步根据需要增加。
 
 ## 安装 & 使用
 
@@ -15,6 +15,8 @@ npm i @game/insight -S
 ```
 
 使用文档详见：http://game-fed.vmic.xyz/insight/
+
+实践案例详见：http://localhost:8080/insight/case/game-card/
 
 ## 调试
 
@@ -53,17 +55,21 @@ insight
 ┣ .vscode                            // 工程配置文件
 ┃ ┣ extensions.json                  //
 ┃ ┗ settings.json                    //
+┣ demo                               // demo 工程
 ┣ docs                               // 洞见的文档
 ┃ ┣ .vuepress
-┃ ┃ ┗ config.js
+┃ ┃ ┗ config.js                      // 文档的配置文件
 ┃ ┣ api
 ┃ ┃ ┗ README.md
-┃ ┣ faq
+┃ ┣ assets                           // 文档静态资源
+┃ ┣ case                             // 案例文档集合
+┃ ┃ ┗ game-card
+┃ ┣ faq                              // 常见问题
 ┃ ┃ ┗ README.md
-┃ ┣ guide
+┃ ┣ guide                            // 使用指南
 ┃ ┃ ┣ README.md
 ┃ ┃ ┗ getting-started.md
-┃ ┗ README.md
+┃ ┗ README.md                        // 文档首页
 ┣ es                                 // 项目发布的 esm 版本代码，对应package.json 中的 module 字段
 ┣ lib                                // 项目发布的 cjs 版本代码，对应package.json 中的 main 字段
 ┣ src                                // 项目的源码
@@ -103,6 +109,9 @@ insight
 ┃ ┣ loader.ts
 ┃ ┣ prefetch.ts
 ┃ ┗ utils.ts
+┣ vision                            // logo 素材文件
+┃ ┣ insight.ai                      // 原始文件
+┃ ┗ insight.png
 ┣ .eslint-config.js                 // eslint 的配置文件
 ┣ .eslintignore                     // eslint 忽略文件
 ┣ .eslintrc.js                      // eslint 的配置文件
@@ -114,7 +123,8 @@ insight
 ┣ commitlint.config.js              // 提交代码校验功能的配置文件
 ┣ package-lock.json
 ┣ package.json
-┗ tsconfig.json                     // ts 的配置文件
+┣ tsconfig.json                     // ts 的配置文件
+┗ webhook.js                        // 文档的更新服务
 ```
 
 ### 工程规范
@@ -143,9 +153,8 @@ insight
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
     "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
-    "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build docs",
-    "docs:server": "pm2 start docs/.vuepress/server.js --name insight-doc-server",
-    "webhook": "pm2 start webhook.js --name insight-webhook",
+    "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build ./docs --dest ../../fed/insight",
+    "docs:webhook": "pm2 start webhook.js --name docs-insight-webhook",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
     "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
     "commit": "cz"
@@ -180,22 +189,18 @@ insight
 
    生成文档。把根目录下的 CHANGELOG.md 文件拷贝到文档目录
 
-8. docs:server
+8. docs:webhook
 
-   文档服务
+   启动服务，监听 push 事件，重新生成文档
 
-9. webhook
+9. release:pre
 
-   启动服务，监听 tag push 事件，重新生成文档
+   预发布，会生成发布的版本，然后在控制台显示版本变动信息。实际不会执行发布操作
 
-10. release:pre
-
-    预发布，会生成发布的版本，然后在控制台显示版本变动信息。实际不会执行发布操作
-
-11. release
+10. release
 
     发布，会生成发布的版本，同时更新版本信息，最后执行 npm publish 发布到 npm. **请务必使用预发布确认版本信息后才发布**
 
-12. commit
+11. commit
 
     提交代码
