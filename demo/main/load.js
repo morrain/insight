@@ -142,3 +142,26 @@ export const update = () => {
     })
   }
 }
+// window.abc = (...args)=>console.log(`abc:origin`, ...args)
+
+// window.system = {
+//   // onmessage:(...args) => {
+//   //      console.log(`system.onmessage:origin`, ...args)
+//   //    }
+// }
+// // setGlobalFunction('system.onmessage', (...args) => {
+// //   console.log(`system.onmessage:${props.name}`, ...args)
+// // })
+
+
+loadMicroApp({
+  name: 'gamecard1',
+  entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
+  container: '#gamecard-container3',
+  props: {
+    reportData: {
+      package_name: 'com.tencent.tmgp.pubgmhd',
+      dl_page: 'default',
+    }
+  }
+})

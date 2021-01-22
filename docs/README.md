@@ -21,6 +21,12 @@ footer: MIT Licensed | Copyright © 2020-present Powered by GAME-FED
 ![](./assets/demo.gif)
 :::
 
+## 💯 全局函数管理器实现
+
+::: center
+![](./assets/globalFuncs.png)
+:::
+
 ## 📦 安装
 
 ```shell
