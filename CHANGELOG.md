@@ -2,6 +2,22 @@
 
 所有项目的变更记录会记录在如下文件.
 
+## [1.5.0](https://gitlab.vmic.xyz///compare/v1.4.1...v1.5.0) (2021-01-22)
+
+
+### Features
+
+* 升级@game/docs-config ([36a0f5a](https://gitlab.vmic.xyz///commit/36a0f5a06f5ce1b05381e2ea847e77271b16f557))
+* 完善demo,更新logo ([2e1d321](https://gitlab.vmic.xyz///commit/2e1d3217a3887fcf11f76a6d04371b728dbcb5ee))
+* 更新文档 ([919a97b](https://gitlab.vmic.xyz///commit/919a97b45c73b7b7d6fb210549532246bef02027))
+
+
+### Bug Fixes
+
+* 修复webhook.js脚本 ([3553213](https://gitlab.vmic.xyz///commit/35532137e85a86f85146174496f83bbfe45fda72))
+* 增加webhook命令 ([2736464](https://gitlab.vmic.xyz///commit/27364643f5e20ef9c458b1d322c6b944a6fe9d26))
+* 拼写错误 ([dcabb29](https://gitlab.vmic.xyz///commit/dcabb291c63cad0ba80575e1c22f252d3117f98a))
+
 ### [1.4.1](https://gitlab.vmic.xyz///compare/v1.4.0...v1.4.1) (2021-01-13)
 
 
