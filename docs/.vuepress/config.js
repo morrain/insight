@@ -27,6 +27,15 @@ module.exports = {
         link: '/CHANGELOG'
       },
       {
+        text: '实践案例',
+        items: [
+          {
+            text: '游戏卡片',
+            link: '/case/game-card/'
+          }
+        ]
+      },
+      {
         text: 'NPM',
         link: 'http://npm.vivo.com.cn/#/detail/@game/insight'
       }
