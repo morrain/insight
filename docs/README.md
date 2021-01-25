@@ -11,7 +11,7 @@ features:
   - title: 完备
     details: 几乎包含所有构建微前端系统时所需要的基本能力，如 样式隔离、js 沙箱、预加载等。
   - title: 好用
-    details: 打包优化，增加调试功能，开发效率更高。增加`setGlobalFunction`等更多api，支持在沙箱模式下往全局window上挂载函数。
+    details: 打包优化，增加调试功能，开发效率更高。增加 setGlobalFunction 等更多api，支持在沙箱模式下往全局window上挂载函数。
 footer: MIT Licensed | Copyright © 2020-present Powered by GAME-FED
 ---
 
