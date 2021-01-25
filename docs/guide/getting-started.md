@@ -261,7 +261,9 @@ insight 在 `mount` 生命周期中，注入了 `setGlobalFunction` 方法。当
   - funcName - `string` - 必选 要挂载的函数名
   - handler - `function` - 必选 对应的处理函数
 
-> funcName 支持用.分隔的字符串，如'system.onmessage'，此时，handler 会挂载到 `window.system.onmessage` 上。**注意，此种用法你需要保证 system 等中间层级是存在的，否则会报错，insight 不会默认添加中间层级的内容，因为不好回收**
+::: warning 警告
+funcName 支持用.分隔的字符串，如'system.onmessage'，此时，handler 会挂载到 `window.system.onmessage` 上。**注意，此种用法你需要保证 system 等中间层级是存在的，否则会报错，insight 不会默认添加中间层级的内容，因为不好回收**
+:::
 
 - 用法
 
