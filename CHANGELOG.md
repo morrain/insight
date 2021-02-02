@@ -2,6 +2,13 @@
 
 所有项目的变更记录会记录在如下文件.
 
+### [1.5.1](https://gitlab.vmic.xyz///compare/v1.5.0...v1.5.1) (2021-02-02)
+
+
+### Bug Fixes
+
+* 修复Object.entries在低版本不能用的问题 ([35690e7](https://gitlab.vmic.xyz///commit/35690e7a435f4ce19240cdcdaf264065b0dce21a))
+
 ## [1.5.0](https://gitlab.vmic.xyz///compare/v1.4.1...v1.5.0) (2021-01-22)
 
 
