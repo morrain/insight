@@ -35,9 +35,12 @@ export function getGlobalFuncsActions(id: string, win: any): GlobalFuncsActions 
         // 全局函数被调用后，先调用之前的函数，再调用微服务注册上来的函数
         if (isFunction(winFuncs[funcName])) winFuncs[funcName](...args)
         Object.keys(appsFuncs).forEach(m => {
-          // 遍历注册的所有函数
-          for (const [fN, f] of Object.entries(appsFuncs[m])) {
-            if (fN === funcName) {
+          const target = appsFuncs[m]
+
+          for (const fN in target) {
+            // 遍历注册的所有函数
+            if (Object.prototype.hasOwnProperty.call(target, fN) && fN === funcName) {
+              const f = target[fN]
               if (isFunction(f)) f(...args)
               return
             }
