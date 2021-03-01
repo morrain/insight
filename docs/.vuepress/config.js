@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/insight/',
+  base: '/docs/项目名/_docs',
   title: '洞见',
   description: 'vivo游戏事业部前端技术组微服务解决方案',
   head: [
