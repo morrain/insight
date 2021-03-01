@@ -14,9 +14,9 @@ inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qia
 npm i @game/insight -S
 ```
 
-使用文档详见：http://game-fed.vmic.xyz/insight/
+使用文档详见：http://game-fed.vmic.xyz/docs/insight/_docs/
 
-实践案例详见：http://localhost:8080/insight/case/game-card/
+实践案例详见：http://game-fed.vmic.xyz/docs/insight/_docs/case/game-card/
 
 ## 调试
 
