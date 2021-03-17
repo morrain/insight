@@ -123,8 +123,7 @@ insight
 ┣ commitlint.config.js              // 提交代码校验功能的配置文件
 ┣ package-lock.json
 ┣ package.json
-┣ tsconfig.json                     // ts 的配置文件
-┗ webhook.js                        // 文档的更新服务
+┗ tsconfig.json                      // ts 的配置文件
 ```
 
 ### 工程规范
@@ -153,8 +152,6 @@ insight
     "build:esm:dev": "cross-env NODE_ENV=esm babel src --out-dir es --extensions .ts,.js --source-maps",
     "build:cjs": "cross-env NODE_ENV=cjs babel src --out-dir lib --extensions .ts,.js",
     "docs:dev": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress dev docs",
-    "docs:build": "cp CHANGELOG.md docs/CHANGELOG.md && vuepress build ./docs --dest ../../fed/insight",
-    "docs:webhook": "pm2 start webhook.js --name docs-insight-webhook",
     "release:pre": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version)",
     "release": "npm run build:esm && npm run build:cjs && (HUSKY_SKIP_HOOKS=1 standard-version  --dry-run=false) && npm publish",
     "commit": "cz"
@@ -189,18 +186,14 @@ insight
 
    生成文档。把根目录下的 CHANGELOG.md 文件拷贝到文档目录
 
-8. docs:webhook
-
-   启动服务，监听 push 事件，重新生成文档
-
-9. release:pre
+8. release:pre
 
    预发布，会生成发布的版本，然后在控制台显示版本变动信息。实际不会执行发布操作
 
-10. release
+9. release
 
-    发布，会生成发布的版本，同时更新版本信息，最后执行 npm publish 发布到 npm. **请务必使用预发布确认版本信息后才发布**
+   发布，会生成发布的版本，同时更新版本信息，最后执行 npm publish 发布到 npm. **请务必使用预发布确认版本信息后才发布**
 
-11. commit
+10. commit
 
     提交代码
