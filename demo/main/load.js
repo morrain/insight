@@ -11,7 +11,7 @@ import {
  * Step0 预加载卡片
  */
 prefetchApps([{
-  entry: '//game-card.vivo.com.cn:7104/game-card/'
+  entry: '//gamecontent-dev.vivo.com.cn:7104/game-card/'
 }])
 
 /**
@@ -33,7 +33,7 @@ export const loadCard1 = () => {
 
   cardInstance1 = loadMicroApp({
     name: 'gamecard1',
-    entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
+    entry: '//gamecontent-dev.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
     container: '#gamecard-container1',
     props: {
       reportData: {
@@ -87,7 +87,7 @@ export const loadCard2 = () => {
 
   cardInstance2 = loadMicroApp({
     name: 'gamecard2',
-    entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
+    entry: '//gamecontent-dev.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
     container: '#gamecard-container2',
     props: {
       reportData: {
@@ -156,7 +156,7 @@ export const update = () => {
 
 loadMicroApp({
   name: 'gamecard1',
-  entry: '//game-card.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
+  entry: '//gamecontent-dev.vivo.com.cn:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
   container: '#gamecard-container3',
   props: {
     reportData: {
