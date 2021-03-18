@@ -4,7 +4,7 @@
 
 **VIVO 自己的微前端解决方案**
 
-inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qiankun](https://qiankun.umijs.org/zh) 的微前端解决方案，增加了微应用管理和数据统计的功能，优化了包加载机制，依赖的包体大小更小。改变了打包方式，增加 sourcemap，方便开发调试。也修复了 qiankun 中部分 api 文档不准的问题，手动加载的微应用增加生命周期钩子。增加`setGlobalFunction`等更多 api，支持在沙箱模式下往全局 window 上挂载函数，做**符合 vivo 应用场景的微前端解决方案**。
+inSight 是基于 [single-spa](https://github.com/CanopyTax/single-spa) 和 [qiankun 2.2.3](https://qiankun.umijs.org/zh) 的微前端解决方案，增加了微应用管理和数据统计的功能，优化了包加载机制，依赖的包体大小更小。改变了打包方式，增加 sourcemap，方便开发调试。也修复了 qiankun 中部分 api 文档不准的问题，手动加载的微应用增加生命周期钩子。增加`setGlobalFunction`等更多 api，支持在沙箱模式下往全局 window 上挂载函数，做**符合 vivo 应用场景的微前端解决方案**。
 
 同时还做了安卓 5 下的适配，更多需求后续逐步根据需要增加。
 
