@@ -134,7 +134,8 @@
   > loadMicroApp 有 configuration 和 lifeCycles 两个可选参数，所以使用时请注意，如果要配置生命周期钩子，必须传参 configuration，可以设置为 null，如下所示：
 
   ```js
-  let cardInstance = loadMicroApp({
+  let cardInstance = loadMicroApp(
+    {
       name: 'gamecard',
       entry: '//localhost:7104/game-card/', // 请去游戏卡片工程启动服务 https://gitlab.vmic.xyz/gamehelper/game-card
       container: '#gamecard-container',
@@ -142,35 +143,37 @@
         moduleId: 184,
         origin: 'demo'
       }
-    }, null
-    ,{
+    },
+    null,
+    {
       beforeLoad: [
         app => {
-          console.log('[loadMicroApp][LifeCycle] before load %c%s', 'color: green;', app.name);
-        },
+          console.log('[loadMicroApp][LifeCycle] before load %c%s', 'color: green;', app.name)
+        }
       ],
-      beforeMount:
+      beforeMount: [
         app => {
-          console.log('[loadMicroApp][LifeCycle] before mount %c%s', 'color: green;', app.name);
-        },
-      ,
+          console.log('[loadMicroApp][LifeCycle] before mount %c%s', 'color: green;', app.name)
+        }
+      ],
       afterMount: [
         app => {
-          console.log('[loadMicroApp][LifeCycle] after mount %c%s', 'color: green;', app.name);
+          console.log('[loadMicroApp][LifeCycle] after mount %c%s', 'color: green;', app.name)
           update(app.name) // 切换应用后，相应的更新卡片
-        },
+        }
       ],
       beforeUnmount: [
         app => {
-          console.log('[loadMicroApp][LifeCycle] before unmount %c%s', 'color: green;', app.name);
-        },
+          console.log('[loadMicroApp][LifeCycle] before unmount %c%s', 'color: green;', app.name)
+        }
       ],
       afterUnmount: [
         app => {
-          console.log('[loadMicroApp][LifeCycle] after unmount %c%s', 'color: green;', app.name);
-        },
-      ],
-    })
+          console.log('[loadMicroApp][LifeCycle] after unmount %c%s', 'color: green;', app.name)
+        }
+      ]
+    }
+  )
   ```
 
 - 返回值 - `MicroApp` - 微应用实例
